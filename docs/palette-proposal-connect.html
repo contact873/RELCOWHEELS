@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect: proposed palette and type</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600&family=Sora:wght@400;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#F6F7F9; color:#33414E; font-family:'Instrument Sans', system-ui, sans-serif; line-height:1.6; }
+  .page { max-width:1180px; margin:0 auto; padding:40px 20px 80px; }
+  h1 { font-family:Sora, system-ui, sans-serif; color:#0B1220; font-size:clamp(1.6rem,3vw,2.2rem); margin:0 0 8px; letter-spacing:-0.02em; }
+  .lede { max-width:70ch; color:#55636F; }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid #D6DFE8; margin-top:28px; background:#fff; }
+  .panel { padding:26px 24px 32px; }
+  .panel + .panel { border-left:1px solid #D6DFE8; }
+  .tag { font-family:ui-monospace, Menlo, monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; padding:3px 8px; display:inline-block; margin-bottom:18px; }
+  .tag.old { background:#EBE5D8; color:#6B5F4E; }
+  .tag.new { background:#2E7DF6; color:#fff; }
+
+  /* --- current identity --- */
+  .old { --ink:#0c1014; --bone:#f5f1e8; --paper:#fffdf8; --accent:#c9541f; --accent2:#e06a33; --line:#e0d8c9; --muted:#6b6255;
+         --display:Fraunces, Georgia, serif; --body:Inter, system-ui, sans-serif; }
+  /* --- proposed identity --- */
+  .new { --ink:#0B1220; --bone:#F3F6FA; --paper:#FFFFFF; --accent:#2E7DF6; --accent2:#5B9BFF; --line:#D6DFE8; --muted:#55636F;
+         --display:Sora, system-ui, sans-serif; --body:'Instrument Sans', system-ui, sans-serif; }
+
+  .demo { background:var(--bone); color:var(--ink); font-family:var(--body); padding:22px; border:1px solid var(--line); }
+  .demo .eyebrow { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .demo h2 { font-family:var(--display); font-size:clamp(1.3rem,2.2vw,1.8rem); line-height:1.12; margin:10px 0 10px; letter-spacing:-0.02em; }
+  .demo p { margin:0 0 16px; font-size:.94rem; color:var(--muted); }
+  .demo .btn { display:inline-block; background:var(--accent); color:#fff; padding:11px 20px; font-size:.8rem; font-weight:600;
+               letter-spacing:.06em; text-transform:uppercase; border:0; }
+  .demo .btn.ghost { background:transparent; color:var(--accent); border:1px solid var(--accent); margin-left:8px; }
+  .demo .card { background:var(--paper); border:1px solid var(--line); padding:16px; margin-top:18px; }
+  .demo .card b { font-family:var(--display); display:block; margin-bottom:4px; }
+  .demo .card span { font-size:.85rem; color:var(--muted); }
+  .demo label { display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .demo input { width:100%; padding:10px 12px; border:1px solid var(--line); background:#fff; font:inherit; font-size:.9rem; color:var(--ink); }
+
+  h2.sec { font-family:Sora, system-ui, sans-serif; color:#0B1220; font-size:1.1rem; margin:44px 0 14px; }
+  table { border-collapse:collapse; width:100%; font-size:.88rem; background:#fff; border:1px solid #D6DFE8; }
+  th, td { text-align:left; padding:9px 14px; border-bottom:1px solid #E7ECF2; }
+  th { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#6B7A88; background:#F8FAFC; }
+  .chip { display:inline-block; width:15px; height:15px; vertical-align:-2px; margin-right:8px; border:1px solid rgba(0,0,0,.12); }
+  .note { background:#fff; border-left:3px solid #2E7DF6; padding:14px 18px; margin-top:22px; font-size:.9rem; }
+  footer { margin-top:48px; font-size:.84rem; color:#7A8794; }
+  @media (max-width:820px) { .split { grid-template-columns:1fr; } .panel + .panel { border-left:0; border-top:1px solid #D6DFE8; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Connect: proposed palette and type</h1>
+  <p class="lede">The same components, rendered twice. Left is what is live today. Right is the proposal.
+    Nothing has been changed on the site yet. Look at the two columns side by side and decide.</p>
+
+  <div class="split">
+    <div class="panel">
+      <span class="tag old">Current</span>
+      <div class="demo old">
+        <p class="eyebrow">AI front desk</p>
+        <h2>Every call answered, even the ones at 9pm.</h2>
+        <p>Warm paper, Fraunces headings, burnt orange actions. Identical to the corporate kit and to Business OS.</p>
+        <button class="btn">See the plans</button>
+        <button class="btn ghost">Book a call</button>
+        <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+        <label for="a">Your email</label>
+        <input id="a" type="email" placeholder="you@example.com" style="margin-top:10px">
+      </div>
+    </div>
+
+    <div class="panel">
+      <span class="tag new">Proposed</span>
+      <div class="demo new">
+        <p class="eyebrow">AI front desk</p>
+        <h2>Every call answered, even the ones at 9pm.</h2>
+        <p>Cool ground, Sora headings, product blue actions, Instrument Sans body. Reads as a software product rather than as a brochure.</p>
+        <button class="btn">See the plans</button>
+        <button class="btn ghost">Book a call</button>
+        <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+        <label for="b">Your email</label>
+        <input id="b" type="email" placeholder="you@example.com" style="margin-top:10px">
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec">What changes, and why</h2>
+  <table>
+    <thead><tr><th>Token</th><th>Now</th><th>Proposed</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>brand</td><td><span class="chip" style="background:#c9541f"></span>#c9541f</td><td><span class="chip" style="background:#2E7DF6"></span>#2E7DF6</td><td>Burnt orange is also the corporate colour and the colour of the logo node. A product action colour has to be something else.</td></tr>
+      <tr><td>ground</td><td><span class="chip" style="background:#f5f1e8"></span>#f5f1e8</td><td><span class="chip" style="background:#F3F6FA"></span>#F3F6FA</td><td>Warm bone becomes cool grey-white. This is the change that stops it reading as the same site.</td></tr>
+      <tr><td>heading</td><td><span class="chip" style="background:#0c1014"></span>#0c1014</td><td><span class="chip" style="background:#0B1220"></span>#0B1220</td><td>Warm-neutral near-black becomes cool navy-black.</td></tr>
+      <tr><td>extra</td><td>none</td><td><span class="chip" style="background:#22D3A6"></span>#22D3A6</td><td>The answer teal, echoing the relay node in the mark.</td></tr>
+      <tr><td>display</td><td>Fraunces</td><td>Sora</td><td>Fraunces is on six properties. A geometric sans reads as software and takes it off the list.</td></tr>
+      <tr><td>body</td><td>Inter</td><td>Instrument Sans</td><td>Inter is on nine properties. This is the monoculture that made everything look alike.</td></tr>
+      <tr><td>shape</td><td>soft 8px</td><td>crisp 2px</td><td>Matches a documentation-grade product and separates it from Zahid and the demos.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Why this is not dark mode.</strong> The plan originally specified dark-dominant for Connect.
+    Its stylesheet has 33 hardcoded colours, including <code>body { background: #fff }</code>, and its
+    <code>.dark</code> bands assume a light page with dark sections. Inverting that is a rework rather than
+    a token swap, and the result would have to be judged by eye. Light-cool gets the same separation with
+    far less risk.
+  </div>
+
+  <div class="note" style="border-left-color:#B45309">
+    <strong>What still has to be your call.</strong> Whether this looks right. A machine can check that
+    no two properties share a hex or a typeface. It cannot check whether the result is good. If the right
+    hand column reads as a different, better product, say so and it gets applied to Connect and Business OS
+    together. If it does not, tell me what is wrong with it and I will change the proposal rather than the site.
+  </div>
+
+  <footer>
+    Applied to a property only after approval. The checker at
+    <code>~/Documents/apps/tools/check-identity.mjs</code> is what confirms the collision is gone.
+  </footer>
+</div>
+</body>
+</html>

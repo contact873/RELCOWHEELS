@@ -1,0 +1,85 @@
+/*
+  RELCO Wheels, identity tokens.
+
+  Unique to this property. Registered in ~/Documents/apps/DESIGN-IDENTITY.md and declared in
+  ../identity.json. Run `node ../tools/check-identity.mjs` before shipping a change here.
+
+  The concept is "the inspection sheet". A marketplace reads like documentation: cool, precise,
+  data forward. Note what is deliberately absent: no warm cream, because warm grounds dull silver,
+  grey and white cars, which is most of the market.
+
+  Page theme lock: light is the default, dark is the same identity at night. Nothing inverts
+  section by section. The footer is the one ink band, and it is ink in both modes.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* nine slot contract, adopted from the Astra model */
+  --brand: #0e5c4a;      /* verified green. The marketplace's actual product is verification */
+  --brand-alt: #128168;
+  --heading: #0f1b26;    /* cool graphite navy */
+  --text: #33414e;
+  --bg: #f4f6f8;         /* cool grey white */
+  --bg-alt: #fcfdfe;     /* off white. Never pure #ffffff, which kills depth */
+  --border: #d3dbe2;
+  --bg-subtle: #e8edf1;
+  --extra: #1d4ed8;      /* action blue. Links and actions only, never competing with green */
+
+  /* functional, exempt from the uniqueness rule because they mean the same thing everywhere */
+  --price: #0e5c4a;
+  --sold: #64748b;
+  --warn: #a16207;
+  --danger: #b3261e;
+
+  /* shape: one system, crisp 2px, applied everywhere */
+  --radius: 2px;
+  --radius-pill: 999px;
+
+  /* rhythm */
+  --wrap: 1240px;
+  --section: clamp(56px, 6vw, 96px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --brand: #2f9e7d;
+    --brand-alt: #3dba95;
+    --heading: #eef3f7;
+    --text: #aebeca;
+    --bg: #0c141c;
+    --bg-alt: #111b25;
+    --border: #22303e;
+    --bg-subtle: #16212c;
+    --extra: #7ba7f5;
+
+    --price: #4fc79b;
+    --sold: #7b8a99;
+    --warn: #d8a33c;
+    --danger: #e57066;
+  }
+}
+
+/* Archivo carries a width axis, which is what gives the headings their mechanical, expanded
+   feel. Set here rather than in a Tailwind utility because it is a variation axis, not a size. */
+[data-display] {
+  font-variation-settings: "wdth" 118;
+  letter-spacing: -0.015em;
+}
+
+/* The footer, and any other deliberately inverted band. Ink in both colour schemes. */
+[data-surface="ink"] {
+  color-scheme: dark;
+  --bg: #0f1b26;
+  --bg-alt: #16232f;
+  --bg-subtle: #1c2b39;
+  --border: #26374a;
+  --heading: #eef3f7;
+  --text: #b3c1cd;
+  --brand: #2f9e7d;
+  --extra: #7ba7f5;
+  --price: #4fc79b;
+  --sold: #8695a4;
+}

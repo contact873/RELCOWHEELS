@@ -1,0 +1,195 @@
+#!/usr/bin/env node
+/**
+ * The site gate. Run before every push.
+ *
+ *   cd ~/Documents/apps/RELCOWHEELS/site
+ *   npm run check:site
+ *
+ * Each check below exists because it corresponds to a way this site could ship something broken,
+ * unsafe or embarrassing. They are cheap to run and they are the reason a mistake gets caught here
+ * rather than by a visitor.
+ */
+
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const SITE = path.resolve(HERE, "../site");
+const SRC = path.join(SITE, "src");
+const BUILD = path.join(SITE, ".next/server/app");
+const PROJECT = path.resolve(HERE, "..");
+
+const failures = [];
+const warnings = [];
+const notes = [];
+
+function fail(check, detail) {
+  failures.push({ check, detail });
+}
+function warn(check, detail) {
+  warnings.push({ check, detail });
+}
+
+// ---------------------------------------------------------------------------
+function walk(dir, exts, out = []) {
+  let entries;
+  try {
+    entries = fs.readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return out;
+  }
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (["node_modules", ".next", ".git"].includes(entry.name)) continue;
+      walk(full, exts, out);
+    } else if (exts.some((e) => entry.name.endsWith(e))) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+const sourceFiles = walk(SRC, [".ts", ".tsx", ".css", ".md"]);
+
+// ---------------------------------------------------------------------------
+// 1. Em dashes and en dashes
+//
+// A standing house rule across every property, and the design skill treats it as a hard fail too.
+// ---------------------------------------------------------------------------
+
+const dashes = [];
+for (const file of sourceFiles) {
+  const text = fs.readFileSync(file, "utf8");
+  const lines = text.split("\n");
+  lines.forEach((line, i) => {
+    if (line.includes("\u2014") || line.includes("\u2013")) {
+      dashes.push(`${path.relative(SITE, file)}:${i + 1}`);
+    }
+  });
+}
+if (dashes.length) fail("em dash", `${dashes.length} found: ${dashes.slice(0, 5).join(", ")}`);
+else notes.push("no em dashes or en dashes");
+
+// ---------------------------------------------------------------------------
+// 2. Unsanitised HTML injection
+//
+// dangerouslySetInnerHTML on user content is the most direct route to stealing a session. Every
+// occurrence must pass through renderBody or plainText, except JSON-LD, which is JSON.stringify of
+// an object this code built.
+// ---------------------------------------------------------------------------
+
+const injections = [];
+for (const file of sourceFiles.filter((f) => f.endsWith(".tsx"))) {
+  const text = fs.readFileSync(file, "utf8");
+  const pattern = /dangerouslySetInnerHTML=\{\{\s*__html:\s*([\s\S]*?)\}\}/g;
+  let m;
+  while ((m = pattern.exec(text))) {
+    const expr = m[1].trim();
+    const safe =
+      expr.startsWith("renderBody(") ||
+      expr.startsWith("plainText(") ||
+      expr.startsWith("JSON.stringify(") ||
+      expr.startsWith("resolveBody(");
+    if (!safe) {
+      const line = text.slice(0, m.index).split("\n").length;
+      injections.push(`${path.relative(SITE, file)}:${line} -> ${expr.slice(0, 60)}`);
+    }
+  }
+}
+if (injections.length) {
+  fail("unsanitised HTML", `${injections.length} raw injection(s): ${injections.join(" | ")}`);
+} else {
+  notes.push("every HTML injection goes through the sanitiser");
+}
+
+// ---------------------------------------------------------------------------
+// 3. Secrets in the bundle
+//
+// The service role key bypasses every row level security policy. A NEXT_PUBLIC_ prefix inlines a
+// value into JavaScript delivered to the browser, so the two must never meet.
+// ---------------------------------------------------------------------------
+
+const secretPatterns = [
+  { name: "JWT", re: /\beyJ[A-Za-z0-9_-]{12,}/ },
+  { name: "service role literal", re: /service_role_key\s*[:=]\s*['"][^'"]{8,}['"]/i },
+  { name: "public-prefixed secret", re: /NEXT_PUBLIC_[A-Z0-9_]*(SERVICE|SECRET|PRIVATE)[A-Z0-9_]*/i },
+];
+
+const secretHits = [];
+for (const file of sourceFiles) {
+  const text = fs.readFileSync(file, "utf8");
+  for (const { name, re } of secretPatterns) {
+    if (re.test(text)) secretHits.push(`${path.relative(SITE, file)} (${name})`);
+  }
+}
+if (secretHits.length) fail("secret exposure", secretHits.join(", "));
+else notes.push("no secret patterns and no public-prefixed secrets");
+
+// ---------------------------------------------------------------------------
+// 4. The build exists and every page has exactly one h1
+// ---------------------------------------------------------------------------
+
+if (!fs.existsSync(BUILD)) {
+  warn("build output", "no .next/server/app, run npm run build first");
+} else {
+  const pages = walk(BUILD, [".html"]);
+  const badH1 = [];
+  for (const page of pages) {
+    const count = (fs.readFileSync(page, "utf8").match(/<h1/g) ?? []).length;
+    if (count !== 1) badH1.push(`${path.relative(BUILD, page)} (${count})`);
+  }
+  if (badH1.length) fail("h1 count", badH1.slice(0, 6).join(", "));
+  else notes.push(`${pages.length} pages, one h1 each`);
+}
+
+// ---------------------------------------------------------------------------
+// 5. The registry matches the stylesheet
+// ---------------------------------------------------------------------------
+
+try {
+  const identity = JSON.parse(fs.readFileSync(path.join(PROJECT, "identity.json"), "utf8"));
+  const tokenFile = path.join(PROJECT, identity.tokenFile);
+  const text = fs.readFileSync(tokenFile, "utf8").toLowerCase();
+  if (!text.includes(String(identity.tokens.brand).toLowerCase())) {
+    fail("stale identity", `${identity.tokens.brand} is declared but absent from ${identity.tokenFile}`);
+  } else {
+    notes.push(`identity.json matches ${identity.tokenFile}`);
+  }
+} catch (error) {
+  fail("identity", String(error.message));
+}
+
+// ---------------------------------------------------------------------------
+// 6. Environment files are not going to be committed
+// ---------------------------------------------------------------------------
+
+const gitignore = path.join(PROJECT, ".gitignore");
+if (fs.existsSync(gitignore)) {
+  const text = fs.readFileSync(gitignore, "utf8");
+  for (const pattern of [".env", ".env*.local"]) {
+    if (!text.includes(pattern)) warn("gitignore", `${pattern} is not ignored`);
+  }
+  notes.push(".env files are ignored");
+}
+if (fs.existsSync(path.join(SITE, ".env.local"))) {
+  notes.push(".env.local present, gitignored, never commit it");
+}
+
+// ---------------------------------------------------------------------------
+// Report
+// ---------------------------------------------------------------------------
+
+console.log("");
+for (const n of notes) console.log(`  ok    ${n}`);
+for (const w of warnings) console.log(`  warn  ${w.check}: ${w.detail}`);
+
+if (failures.length) {
+  console.log("");
+  for (const f of failures) console.log(`  FAIL  ${f.check}: ${f.detail}`);
+  console.log(`\n  ${failures.length} problem${failures.length === 1 ? "" : "s"}. Do not push.\n`);
+  process.exit(1);
+}
+
+console.log(`\n  ${notes.length} checks passed${warnings.length ? `, ${warnings.length} warning${warnings.length === 1 ? "" : "s"}` : ""}.\n`);

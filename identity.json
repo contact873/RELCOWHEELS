@@ -1,0 +1,41 @@
+{
+  "property": "RELCO Wheels",
+  "domain": "wheels.relcoai.com",
+  "kind": "product",
+  "declared": "2026-10-28",
+  "axes": {
+    "ground": "cool",
+    "key": "light",
+    "display": "expanded-grotesk",
+    "body": "public-sans",
+    "shape": "crisp-2px",
+    "structure": "dense-data"
+  },
+  "tokens": {
+    "brand": "#0E5C4A",
+    "brand-alt": "#128168",
+    "heading": "#0F1B26",
+    "text": "#33414E",
+    "bg": "#F4F6F8",
+    "bg-alt": "#FFFFFF",
+    "border": "#D3DBE2",
+    "bg-subtle": "#E8EDF1",
+    "extra": "#1D4ED8",
+    "price": "#0E5C4A",
+    "sold": "#64748B",
+    "warn": "#A16207",
+    "danger": "#B3261E"
+  },
+  "type": {
+    "display": "Archivo",
+    "body": "Public Sans",
+    "data": "IBM Plex Mono"
+  },
+  "tokenFile": "site/src/app/tokens.css",
+  "notes": [
+    "Green carries verification, which is the marketplace's actual product, and it is unused elsewhere.",
+    "Blue is reserved strictly for links and actions so the two never compete.",
+    "The cool grey-white ground is a photographic decision: warm cream dulls silver and grey cars.",
+    "No shadows anywhere. This identity reads as documentation, not as a consumer app."
+  ]
+}

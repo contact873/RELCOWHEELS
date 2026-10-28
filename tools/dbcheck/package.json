@@ -1,0 +1,13 @@
+{
+  "name": "relcowheels-dbcheck",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Executes the RELCO Wheels migrations against an embedded Postgres and tests the triggers.",
+  "scripts": {
+    "check": "node check.mjs"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.12"
+  }
+}

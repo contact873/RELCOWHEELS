@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour scheme options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Outfit:wght@400;600;700&family=Fraunces:opsz,wght@9..144,400..700&family=Bebas+Neue&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F4F6F8;color:#33414E;font:16px/1.6 'Instrument Sans',system-ui,sans-serif}
+  .page{max-width:1120px;margin:0 auto;padding:40px 20px 90px}
+  h1{font-family:Sora,system-ui,sans-serif;color:#0B1220;font-size:clamp(1.7rem,3vw,2.3rem);margin:0 0 10px;letter-spacing:-.02em}
+  .lede{max-width:74ch;color:#55636F}
+  .warnbox{background:#fff;border-left:3px solid #B45309;padding:14px 18px;margin-top:22px;font-size:.92rem}
+  h2.sh{font-family:Sora,system-ui,sans-serif;color:#0B1220;font-size:1.05rem;margin:0}
+  .scheme{background:#fff;border:1px solid #D6DFE8;margin-top:26px}
+  .shead{padding:18px 22px 14px;border-bottom:1px solid #E7ECF2;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
+  .src{font:11px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#8B98A5}
+  .swatches{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid #E7ECF2}
+  .sw{flex:1 1 120px;padding:12px 16px;border-right:1px solid #E7ECF2;min-width:120px}
+  .sw:last-child{border-right:0}
+  .sw i{display:block;height:26px;margin-bottom:7px;border:1px solid rgba(0,0,0,.1)}
+  .sw b{display:block;font:600 11px/1.4 ui-monospace,Menlo,monospace;color:#4A5866;text-transform:uppercase;letter-spacing:.06em}
+  .sw span{font:11px/1.4 ui-monospace,Menlo,monospace;color:#8B98A5}
+  .showcase{padding:26px 22px;background:var(--bg);color:var(--ink);font-family:var(--body)}
+  .showcase .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .showcase h3{font-family:var(--display);font-size:clamp(1.35rem,2.4vw,2rem);line-height:1.08;margin:10px 0 10px;letter-spacing:-.02em;color:var(--ink)}
+  .showcase p{margin:0 0 18px;font-size:.94rem;color:var(--muted);max-width:58ch}
+  .showcase .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:12px 22px;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:0;border-radius:var(--r)}
+  .showcase .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);margin-left:8px}
+  .showcase .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:20px;max-width:420px}
+  .showcase .card b{font-family:var(--display);display:block;margin-bottom:4px;color:var(--ink)}
+  .showcase .card span{font-size:.85rem;color:var(--muted)}
+  .showcase .band{background:var(--band);color:var(--band-ink);padding:16px 18px;margin-top:20px;border-radius:var(--r)}
+  .showcase .band b{font-family:var(--display);display:block;font-size:1.05rem;margin-bottom:3px}
+  .showcase .band span{font-size:.85rem;opacity:.85}
+  .showcase label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+  .showcase input{width:100%;max-width:360px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);font:inherit;font-size:.9rem;color:var(--ink)}
+  .contrast{display:flex;flex-wrap:wrap;gap:8px 22px;padding:13px 22px;border-top:1px solid #E7ECF2;font:600 12px/1.5 ui-monospace,Menlo,monospace;color:#4A5866}
+  .contrast .pass{color:#0F7A4A}
+  .contrast .fail{color:#B3261E}
+  footer{margin-top:44px;font-size:.86rem;color:#7A8794}
+  @media(max-width:700px){.showcase{padding:20px 16px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Colour scheme options</h1>
+  <p class="lede">Eight directions, each rendered with identical components so the only difference is the
+    palette. The ratios underneath each one are computed live, not typed in: body text and button label
+    against their backgrounds, at the WCAG thresholds of 4.5 and 3.0.</p>
+
+  <div class="warnbox">
+    <strong>Read this before choosing.</strong> Colour is one of six axes. We already learned that changing
+    the accent while keeping warm paper, a serif and Inter produces the same website in a different colour,
+    which is exactly what was wrong before. Whichever scheme you pick here, the typefaces and the shape have
+    to change with it. The scheme column on the right says what each one frees up.
+  </div>
+
+  <!-- 1 -->
+  <section class="scheme" data-bg="#F3F6FA" data-ink="#33414E" data-accent="#2E7DF6" data-accent-ink="#FFFFFF">
+    <div class="shead">
+      <h2 class="sh">1. Product blue on cool grey</h2>
+      <span class="src">The current proposal. Nothing else uses it</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#0B1220"></i><b>Ink</b><span>#0B1220</span></div>
+      <div class="sw"><i style="background:#F3F6FA"></i><b>Ground</b><span>#F3F6FA</span></div>
+      <div class="sw"><i style="background:#2E7DF6"></i><b>Accent</b><span>#2E7DF6</span></div>
+      <div class="sw"><i style="background:#22D3A6"></i><b>Extra</b><span>#22D3A6</span></div>
+    </div>
+    <div class="showcase" style="--bg:#F3F6FA;--ink:#0B1220;--muted:#55636F;--accent:#2E7DF6;--accent-ink:#fff;--card:#fff;--line:#D6DFE8;--band:#0B1220;--band-ink:#E8EEF5;--r:2px;--display:Sora,system-ui,sans-serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>Cool ground, geometric headings, one blue action colour. Reads as software rather than as a brochure.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 2 -->
+  <section class="scheme" data-bg="#EEF1F4" data-ink="#2A3542" data-accent="#45566B" data-accent-ink="#FFFFFF">
+    <div class="shead">
+      <h2 class="sh">2. Cold chrome</h2>
+      <span class="src">Skill reference: cold luxury. Nothing uses it</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#121820"></i><b>Ink</b><span>#121820</span></div>
+      <div class="sw"><i style="background:#EEF1F4"></i><b>Ground</b><span>#EEF1F4</span></div>
+      <div class="sw"><i style="background:#45566B"></i><b>Accent</b><span>#45566B</span></div>
+      <div class="sw"><i style="background:#9AA7B4"></i><b>Extra</b><span>#9AA7B4</span></div>
+    </div>
+    <div class="showcase" style="--bg:#EEF1F4;--ink:#121820;--muted:#5B6876;--accent:#45566B;--accent-ink:#fff;--card:#fff;--line:#D2D9E0;--band:#121820;--band-ink:#DAE1E8;--r:2px;--display:Outfit,system-ui,sans-serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>Silver and smoke with a steel accent. Restrained and expensive, and the least attention-seeking of the eight.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="scheme" data-bg="#FFFFFF" data-ink="#1B2450" data-accent="#18246F" data-accent-ink="#FFFFFF">
+    <div class="shead">
+      <h2 class="sh">3. Deep navy on white</h2>
+      <span class="src">Colorlib, S Kaba Consulting. Nothing uses it</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#0F1540"></i><b>Ink</b><span>#0F1540</span></div>
+      <div class="sw"><i style="background:#FFFFFF"></i><b>Ground</b><span>#FFFFFF</span></div>
+      <div class="sw"><i style="background:#18246F"></i><b>Accent</b><span>#18246F</span></div>
+      <div class="sw"><i style="background:#B9C2E8"></i><b>Extra</b><span>#B9C2E8</span></div>
+    </div>
+    <div class="showcase" style="--bg:#FFFFFF;--ink:#0F1540;--muted:#4A5478;--accent:#18246F;--accent-ink:#fff;--card:#F7F8FC;--line:#DDE1EE;--band:#18246F;--band-ink:#E6E9F7;--r:3px;--display:Fraunces,Georgia,serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>White with one deep navy. The most conventional and most trust-forward of the eight, and the safest for a business audience.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="scheme" data-bg="#0D0D0D" data-ink="#F2EADE" data-accent="#A78444" data-accent-ink="#14100A">
+    <div class="shead">
+      <h2 class="sh">4. Mineral gold on black</h2>
+      <span class="src">Colorlib, Sierra Hull. Dark-dominant</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#F2EADE"></i><b>Ink</b><span>#F2EADE</span></div>
+      <div class="sw"><i style="background:#0D0D0D"></i><b>Ground</b><span>#0D0D0D</span></div>
+      <div class="sw"><i style="background:#A78444"></i><b>Accent</b><span>#A78444</span></div>
+      <div class="sw"><i style="background:#3A3A3A"></i><b>Line</b><span>#3A3A3A</span></div>
+    </div>
+    <div class="showcase" style="--bg:#0D0D0D;--ink:#F2EADE;--muted:#A79C8C;--accent:#A78444;--accent-ink:#14100A;--card:#171717;--line:#3A3A3A;--band:#A78444;--band-ink:#14100A;--r:0px;--display:Fraunces,Georgia,serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>Black with gold and an almond text colour. The most premium of the eight, and the most at risk of reading as a luxury brand rather than a utility.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="scheme" data-bg="#F6F2E5" data-ink="#1F3A2E" data-accent="#113023" data-accent-ink="#EAF6EF">
+    <div class="shead">
+      <h2 class="sh">5. Botanical</h2>
+      <span class="src">Colorlib, Koysor Abdul. Accent is very dark, so buttons read as ink</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#1F3A2E"></i><b>Ink</b><span>#1F3A2E</span></div>
+      <div class="sw"><i style="background:#F6F2E5"></i><b>Ground</b><span>#F6F2E5</span></div>
+      <div class="sw"><i style="background:#113023"></i><b>Accent</b><span>#113023</span></div>
+      <div class="sw"><i style="background:#4DEAA7"></i><b>Bright</b><span>#4DEAA7</span></div>
+    </div>
+    <div class="showcase" style="--bg:#F6F2E5;--ink:#1F3A2E;--muted:#5C6B5F;--accent:#113023;--accent-ink:#EAF6EF;--card:#FFFDF7;--line:#DCD6C4;--band:#113023;--band-ink:#CFE7DA;--r:2px;--display:Outfit,system-ui,sans-serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>Warm paper with a very dark green. Note the bright mint: it can only ever be a highlight, never a button, because white text on it fails.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="scheme" data-bg="#12191E" data-ink="#E8E2DA" data-accent="#C2673A" data-accent-ink="#15100C">
+    <div class="shead">
+      <h2 class="sh">6. Terracotta on slate</h2>
+      <span class="src">Visme, Deep Vintage Mood. Dark-dominant</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#E8E2DA"></i><b>Ink</b><span>#E8E2DA</span></div>
+      <div class="sw"><i style="background:#12191E"></i><b>Ground</b><span>#12191E</span></div>
+      <div class="sw"><i style="background:#C2673A"></i><b>Accent</b><span>#C2673A</span></div>
+      <div class="sw"><i style="background:#2C3740"></i><b>Line</b><span>#2C3740</span></div>
+    </div>
+    <div class="showcase" style="--bg:#12191E;--ink:#E8E2DA;--muted:#9AA5AE;--accent:#C2673A;--accent-ink:#15100C;--card:#1A232A;--line:#2C3740;--band:#C2673A;--band-ink:#15100C;--r:2px;--display:Sora,system-ui,sans-serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>Cool slate with warm rust. The one scheme here that puts a warm accent on a cool ground, which is why it does not read as another warm site.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="scheme" data-bg="#171321" data-ink="#EDE9F5" data-accent="#B9F24D" data-accent-ink="#12100A">
+    <div class="shead">
+      <h2 class="sh">7. Plum and lime</h2>
+      <span class="src">Visme, Innovative and Audacious. The loudest of the eight</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#EDE9F5"></i><b>Ink</b><span>#EDE9F5</span></div>
+      <div class="sw"><i style="background:#171321"></i><b>Ground</b><span>#171321</span></div>
+      <div class="sw"><i style="background:#B9F24D"></i><b>Accent</b><span>#B9F24D</span></div>
+      <div class="sw"><i style="background:#2E2740"></i><b>Line</b><span>#2E2740</span></div>
+    </div>
+    <div class="showcase" style="--bg:#171321;--ink:#EDE9F5;--muted:#A79FBC;--accent:#B9F24D;--accent-ink:#12100A;--card:#1F1930;--line:#2E2740;--band:#B9F24D;--band-ink:#12100A;--r:0px;--display:'Bebas Neue',Impact,sans-serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>Deep plum with acid lime. Strong personality and the highest contrast here, and the wrong choice if the audience is cautious business buyers.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="scheme" data-bg="#FAFBFC" data-ink="#1A2340" data-accent="#2B4EDB" data-accent-ink="#FFFFFF">
+    <div class="shead">
+      <h2 class="sh">8. Lapis</h2>
+      <span class="src">Visme, Supremo. A bluer, stronger relative of option 1</span>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#101A3A"></i><b>Ink</b><span>#101A3A</span></div>
+      <div class="sw"><i style="background:#FAFBFC"></i><b>Ground</b><span>#FAFBFC</span></div>
+      <div class="sw"><i style="background:#2B4EDB"></i><b>Accent</b><span>#2B4EDB</span></div>
+      <div class="sw"><i style="background:#8FA6F0"></i><b>Extra</b><span>#8FA6F0</span></div>
+    </div>
+    <div class="showcase" style="--bg:#FAFBFC;--ink:#101A3A;--muted:#4E5878;--accent:#2B4EDB;--accent-ink:#fff;--card:#fff;--line:#DBE0EA;--band:#101A3A;--band-ink:#E3E8F5;--r:2px;--display:Sora,system-ui,sans-serif;--body:'Instrument Sans',system-ui,sans-serif">
+      <p class="eyebrow">AI front desk</p>
+      <h3>Every call answered, even the ones at 9pm.</h3>
+      <p>A stronger blue than option 1 on an almost-white ground. Pick this over 1 if you want the product to feel bolder and less neutral.</p>
+      <button class="btn">See the plans</button><button class="btn ghost">Book a call</button>
+      <div class="card"><b>Starter</b><span>One number, 300 minutes, email follow up.</span></div>
+      <div class="band"><b>Your number stops being a dead end</b><span>Missed calls get a reply in under a minute.</span></div>
+      <label>Your email</label><input type="email" placeholder="you@example.com">
+    </div>
+    <div class="contrast" data-out></div>
+  </section>
+
+  <footer>
+    Contrast is computed from the hex values in each panel, using the WCAG relative luminance formula.
+    4.5 is the threshold for body text, 3.0 for large text and interface elements. A scheme that fails here
+    will look fine to you and be hard to read for somebody else.
+  </footer>
+</div>
+
+<script>
+  function luminance(hex) {
+    const v = hex.replace('#', '');
+    const rgb = [0, 2, 4].map((i) => parseInt(v.slice(i, i + 2), 16) / 255);
+    const lin = rgb.map((c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)));
+    return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+  }
+
+  function ratio(a, b) {
+    const l1 = luminance(a);
+    const l2 = luminance(b);
+    const hi = Math.max(l1, l2);
+    const lo = Math.min(l1, l2);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+
+  document.querySelectorAll('.scheme').forEach((section) => {
+    const bg = section.dataset.bg;
+    const ink = section.dataset.ink;
+    const accent = section.dataset.accent;
+    const accentInk = section.dataset.accentInk;
+    const out = section.querySelector('[data-out]');
+
+    const checks = [
+      ['body text on ground', ratio(ink, bg), 4.5],
+      ['button label on accent', ratio(accentInk, accent), 4.5],
+      ['accent on ground', ratio(accent, bg), 3.0],
+    ];
+
+    out.innerHTML = checks
+      .map(([label, r, min]) => {
+        const ok = r >= min;
+        return '<span class="' + (ok ? 'pass' : 'fail') + '">' +
+          (ok ? 'PASS' : 'FAIL') + ' ' + label + ': ' + r.toFixed(2) + ':1' +
+          (ok ? '' : ' (needs ' + min + ')') + '</span>';
+      })
+      .join('');
+  });
+</script>
+</body>
+</html>

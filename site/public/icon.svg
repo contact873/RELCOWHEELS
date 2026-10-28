@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">RELCO Wheels mark</title>
+  <!--
+    The RELCO mark, carried over from the parent brand kit unchanged apart from the title.
+
+    This is deliberate. The mark and its orange node are the only elements every RELCO property
+    shares, which is what makes the portfolio read as one family while each property carries its own
+    palette and typefaces. Do not redraw, reweight or recolour the paths below to suit a page. If a
+    ground is too dark for the ink strokes, use the single colour variant instead.
+
+    Construction, on a 64 unit grid with a 28 unit cap height from y18 to y46:
+      bowl   y18 to y33, 15 units, a little over half the cap height
+      leg    starts at 55% of the cap height and runs to the baseline
+      node   sits on the leg's terminal so it reads as part of the letter
+
+    The node is #C9541F and it never changes. It is the family signature.
+  -->
+  <g transform="translate(0.1, -0.4)" fill="none" stroke="#0C1014" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 46 V18"/>
+    <path d="M22 18 H33 a7.5 7.5 0 0 1 0 15 H22"/>
+    <path d="M29 33.5 L41 45.5"/>
+  </g>
+  <circle cx="40" cy="45" r="4.6" fill="#C9541F"/>
+</svg>

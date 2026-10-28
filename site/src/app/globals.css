@@ -1,0 +1,125 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    color: var(--heading);
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    font-variation-settings: "wdth" 118;
+    letter-spacing: -0.015em;
+  }
+
+  /* Prices, mileage, engine capacity and reference numbers are data, so they are set in the
+     mono face with tabular figures. A column of prices that does not align is the single
+     fastest way to make a marketplace look untrustworthy. */
+  .data, .price {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "zero" 1;
+  }
+
+  .price { color: var(--price); font-weight: 600; }
+
+  a { color: var(--extra); }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection { background: var(--brand); color: #fff; }
+}
+
+@layer components {
+  .wrap-x { width: min(var(--wrap), 100% - 40px); margin-inline: auto; }
+
+  .eyebrow {
+    font-family: var(--font-mono), monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    padding: 0.75rem 1.25rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover { background: var(--brand-alt); }
+  .btn-ghost { border-color: var(--border); color: var(--heading); background: var(--bg-alt); }
+  .btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+
+  /* A card is a ruled block, not a floating panel. No shadows anywhere: this identity reads as
+     documentation, and a drop shadow reads as a consumer app. */
+  .card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  .spec-row dt { color: var(--sold); }
+  .spec-row dd { margin: 0; color: var(--heading); }
+
+  .badge {
+    display: inline-block;
+    border-radius: var(--radius);
+    padding: 0.15rem 0.45rem;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .badge-verified { background: var(--brand); color: #fff; }
+  .badge-sold { background: var(--sold); color: #fff; }
+  .badge-held { background: var(--warn); color: #fff; }
+
+  /* A sold listing stays in the index and desaturates, because a page that ranks and then
+     disappears throws away the traffic it already earned. */
+  .is-sold { filter: saturate(0.25); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}

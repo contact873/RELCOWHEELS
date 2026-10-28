@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="t">
+  <title id="t">RELCO Wheels, stacked lockup</title>
+  <!-- For square spaces: avatars, panels, print covers. Mark centred, then three centred lines, then a rule. -->
+  <g transform="translate(120 78) scale(1.9) translate(-31.9 -32.4)">
+    <g transform="translate(0.1, -0.4)" fill="none" stroke="#0C1014" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 46 V18"/>
+      <path d="M22 18 H33 a7.5 7.5 0 0 1 0 15 H22"/>
+      <path d="M29 33.5 L41 45.5"/>
+    </g>
+    <circle cx="40" cy="45" r="4.6" fill="#C9541F"/>
+  </g>
+  <text x="120" y="152" text-anchor="middle" font-family="Archivo, ui-sans-serif, 'Helvetica Neue', Arial, sans-serif"
+        font-size="36" font-weight="700" font-stretch="118%" letter-spacing="0.3" fill="#0C1014">RELCO</text>
+  <text x="120" y="170" text-anchor="middle" font-family="'Public Sans', ui-sans-serif, 'Helvetica Neue', Arial, sans-serif"
+        font-size="11.5" font-weight="600" letter-spacing="7" fill="#33414E">WHEELS</text>
+  <line x1="62" y1="182" x2="178" y2="182" stroke="#C3CDD6" stroke-width="0.9"/>
+  <text x="120" y="196" text-anchor="middle" font-family="'Public Sans', ui-sans-serif, 'Helvetica Neue', Arial, sans-serif"
+        font-size="8" font-weight="600" letter-spacing="2.4" fill="#5A6B7A">EST. 2026</text>
+</svg>

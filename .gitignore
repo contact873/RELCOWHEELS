@@ -1,0 +1,16 @@
+# Next.js
+.next/
+out/
+node_modules/
+next-env.d.ts
+*.tsbuildinfo
+
+# Environment. Never commit a Supabase service key.
+.env
+.env.local
+.env*.local
+
+# Build scratch
+.build/
+.DS_Store
+*.log

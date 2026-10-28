@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">RELCO Wheels mark, roundel</title>
+  <!--
+    The Wheels alternate: the same R and the same orange node, set inside a hairline ring.
+
+    The ring is a wheel rim without drawing a tyre, which is the only nod to the name this identity
+    allows itself. It is for the app icon, social avatars, and print where a crest shape helps. It is
+    not the primary mark, because a ring around a letter reads as a badge rather than a signature and
+    it needs more room than a 16 pixel favicon has.
+
+    The ring is 1.6 units, which is a hairline at every size the mark is used. Nothing inside the
+    ring has been redrawn: it is the parent mark scaled to 0.72 about its own optical centre.
+  -->
+  <circle cx="32" cy="32" r="27.5" fill="none" stroke="#0C1014" stroke-width="1.6"/>
+  <g transform="translate(32 32) scale(0.72) translate(-31.9 -32.4)">
+    <g transform="translate(0.1, -0.4)" fill="none" stroke="#0C1014" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 46 V18"/>
+      <path d="M22 18 H33 a7.5 7.5 0 0 1 0 15 H22"/>
+      <path d="M29 33.5 L41 45.5"/>
+    </g>
+    <circle cx="40" cy="45" r="4.6" fill="#C9541F"/>
+  </g>
+</svg>
