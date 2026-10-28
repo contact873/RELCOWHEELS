@@ -14,3 +14,8 @@ next-env.d.ts
 .build/
 .DS_Store
 *.log
+
+# Generated dealer stock. Deliberately not tracked: these files carry dealer contact details,
+# real prices and real registration numbers, and they are derived from a CSV that is itself the
+# record. Treat a stock file like a customer list, not like source code.
+stock/

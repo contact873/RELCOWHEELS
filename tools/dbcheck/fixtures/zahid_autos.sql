@@ -1,7 +1,15 @@
 -- RELCO Wheels, dealer stock import
 -- Source: dealer-stock-template.csv
 -- Dealer: zahid_autos (Zahid Autos)
--- Generated: 2026-10-28T14:01:56.985Z
+-- Generated: 2026-10-28T14:10:55.662Z
+--
+-- ==========================================================================
+--   THE TEMPLATE CSV, REHEARSED. EVERY CAR IN THIS FILE IS INVENTED, AND
+--   SO IS THE DEALER. RUN IT NOWHERE BUT THE TEST HARNESS.
+--
+--   This banner appears because the input was dealer-stock-template.csv.
+--   A real dealer's file does not produce it.
+-- ==========================================================================
 --
 -- Before running this, confirm that zahid_autos has authorised us in writing to publish this
 -- stock, and that they own the photographs. See docs/dealer-onboarding.md.

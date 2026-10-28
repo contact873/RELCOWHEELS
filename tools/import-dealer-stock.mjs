@@ -364,6 +364,11 @@ on conflict (listing_id, position) do nothing;`;
 const args = parseArgs(process.argv);
 const csvPath = path.resolve(args.csv);
 
+// The template's cars are invented, so a file generated from it gets a banner saying so. The risk is
+// specific and easy to hit: the generated SQL looks exactly like a real import, and pasting it into
+// the live database would put six fictional cars on a fictional dealer's page.
+const isTemplate = /template/i.test(path.basename(csvPath));
+
 if (!fs.existsSync(csvPath)) fail(`No such file: ${csvPath}`, 2);
 
 const rows = parseCsv(fs.readFileSync(csvPath, "utf8"));
@@ -467,6 +472,18 @@ const sql = [
   `-- Source: ${path.basename(csvPath)}`,
   `-- Dealer: ${args.dealer} (${args.dealerName})`,
   `-- Generated: ${new Date().toISOString()}`,
+  ...(isTemplate
+    ? [
+        `--`,
+        `-- ==========================================================================`,
+        `--   THE TEMPLATE CSV, REHEARSED. EVERY CAR IN THIS FILE IS INVENTED, AND`,
+        `--   SO IS THE DEALER. RUN IT NOWHERE BUT THE TEST HARNESS.`,
+        `--`,
+        `--   This banner appears because the input was dealer-stock-template.csv.`,
+        `--   A real dealer's file does not produce it.`,
+        `-- ==========================================================================`,
+      ]
+    : []),
   `--`,
   `-- Before running this, confirm that ${args.dealer} has authorised us in writing to publish this`,
   `-- stock, and that they own the photographs. See docs/dealer-onboarding.md.`,

@@ -114,6 +114,12 @@ node tools/import-dealer-stock.mjs stock/zahid-autos.csv \
 
 Other options: `--city lahore` (default), `--out <path>`.
 
+**`stock/` is gitignored, and should stay that way.** A generated stock file carries real dealer
+contact details, real prices and real registration numbers. Treat it like a customer list, not like
+source code. The one exception committed to the repository is
+`tools/dbcheck/fixtures/zahid_autos.sql`, which is the template rehearsed, carries a banner saying its
+cars are invented, and exists only so the test harness can run the import end to end.
+
 Paste `stock/zahid_autos.sql` into the SQL editor. The importer refuses the whole file if any row
 fails, because a partly imported stock list is worse than none, and it creates any make, model or
 variant the catalogue has never seen.
