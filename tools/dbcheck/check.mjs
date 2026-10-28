@@ -27,6 +27,7 @@ const MIGRATIONS = [
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0002_blog_forum.sql"),
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0003_harden.sql"),
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0004_staff_created_stock.sql"),
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0005_grant_is_admin_to_anon.sql"),
 ];
 
 /**
@@ -535,16 +536,31 @@ await test("anon holds no write privilege on any public table", async () => {
   );
 });
 
-await test("anon cannot execute any function", async () => {
+// An allowlist, not "nothing at all".
+//
+// This test used to assert that anon could execute no function in the database, and that is precisely
+// how the worst defect in this schema got past the harness. is_admin() is called inside row level
+// security policies, and a policy is evaluated by whoever is reading the table, so an anonymous reader
+// must be able to execute it or the whole table becomes unreadable. Revoking it took out listings,
+// articles, threads, posts, post_revisions and profiles: the marketplace, the blog, the forum and every
+// member page, all answering 42501 instead of returning rows.
+//
+// So the rule is not "anon executes nothing". It is "anon executes exactly what the public read path
+// needs, and nothing beyond it". Everything else stays revoked, correctly, because every other function
+// in public is a trigger helper and triggers fire as the table owner without consulting EXECUTE.
+const ANON_MAY_EXECUTE = ["public.is_admin"];
+
+await test("anon may execute is_admin() and nothing else", async () => {
   const r = await db.query(`
-    select n.nspname, p.proname
+    select n.nspname || '.' || p.proname as name
     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
     where n.nspname in ('public', 'private')
       and has_function_privilege('anon', p.oid, 'EXECUTE')
   `);
+  const names = r.rows.map((x) => x.name).sort();
   assert(
-    r.rows.length === 0,
-    `anon can call: ${r.rows.map((x) => `${x.nspname}.${x.proname}`).join(", ")}`,
+    JSON.stringify(names) === JSON.stringify(ANON_MAY_EXECUTE),
+    `anon can call: ${names.join(", ") || "nothing"}. Expected exactly: ${ANON_MAY_EXECUTE.join(", ")}`,
   );
 });
 
@@ -667,6 +683,93 @@ if (fs.existsSync(CATALOGUE_SQL)) {
     );
   });
 }
+
+// ---------------------------------------------------------------------------
+// The public read path, as anon
+//
+// The harness runs as the table owner, so row level security never evaluates and every policy is
+// invisible to it. That blind spot is documented in the README, and until now it was theoretical.
+//
+// It is not theoretical any more. Six tables answered the public API with
+//
+//   42501  permission denied for function is_admin
+//
+// because a policy names a function the caller was not allowed to execute. Reading the migrations
+// cannot find that class of defect, and neither could any assertion the owner can make about catalog
+// state. The only way to see it is to stop being the owner: switch role, then read.
+//
+// These tests do that. They are the reason migration 0005 exists.
+// ---------------------------------------------------------------------------
+
+console.log("");
+console.log("  The public read path, as anon");
+
+async function asRole(role, sql, params = []) {
+  await db.exec(`set role ${role}`);
+  try {
+    return await db.query(sql, params);
+  } finally {
+    await db.exec("reset role");
+  }
+}
+
+// Every table 0003 granted select on, which is every table the site reads without a sign in.
+const PUBLIC_TABLES = [
+  "cities", "city_areas", "makes", "models", "variants", "features", "dealers", "listings",
+  "listing_photos", "listing_features", "inspections", "articles", "tags", "article_tags",
+  "forum_categories", "threads", "posts", "post_revisions", "reactions", "profiles",
+];
+
+await test("anon can read every table the site reads publicly", async () => {
+  const broken = [];
+  for (const table of PUBLIC_TABLES) {
+    try {
+      await asRole("anon", `select * from public.${table} limit 1`);
+    } catch (error) {
+      broken.push(`${table} (${String(error.message).split("\n")[0]})`);
+    }
+  }
+  assert(broken.length === 0, `unreadable as anon: ${broken.join(", ")}`);
+});
+
+await test("anon is subject to row level security, not exempt from it", async () => {
+  // A live listing is visible to the public; a draft is not. Both rows exist and belong to the same
+  // seller, so the only thing separating them is the policy. This is what proves the read path works
+  // rather than merely being permitted.
+  await db.query(
+    `insert into public.listings
+       (reference, seller_id, title, model_year, price_pkr, status, city_id, published_at)
+     values ('LIVE-1', $1, 'A live car the public may see', 2018, 3100000, 'live',
+             (select id from public.cities where slug = 'lahore'), now())`,
+    [ALICE],
+  );
+
+  const live = await asRole("anon", `select count(*)::int as n from public.listings where reference = 'LIVE-1'`);
+  assert(live.rows[0].n === 1, "anon should see a live listing");
+
+  const draft = await asRole("anon", `select count(*)::int as n from public.listings where reference = 'IMP-0001'`);
+  assert(draft.rows[0].n === 0, "anon should not see a draft listing");
+
+  const withdrawn = await asRole(
+    "anon",
+    `select count(*)::int as n from public.listings where reference = 'IMP-0002'`,
+  );
+  assert(withdrawn.rows[0].n === 0, "anon should not see another seller's draft");
+});
+
+await test("anon cannot read the private schema, even by naming it", async () => {
+  const privateTables = ["leads", "auth_events", "user_trust", "reports", "profile_contacts", "dealer_contacts"];
+  const readable = [];
+  for (const table of privateTables) {
+    try {
+      await asRole("anon", `select * from private.${table} limit 1`);
+      readable.push(table);
+    } catch {
+      // Expected: no usage on the schema, no grant on the table.
+    }
+  }
+  assert(readable.length === 0, `anon can read private.${readable.join(", ")}`);
+});
 
 // ---------------------------------------------------------------------------
 // The dealer stock import, end to end

@@ -40,6 +40,8 @@ Supabase, **SQL Editor**, **New query**. Paste one file, run it, then the next.
 supabase/migrations/0001_init.sql
 supabase/migrations/0002_blog_forum.sql
 supabase/migrations/0003_harden.sql
+supabase/migrations/0004_staff_created_stock.sql
+supabase/migrations/0005_grant_is_admin_to_anon.sql
 ```
 
 Each should report success. If `0003` fails on `create schema private`, run `create schema private;`

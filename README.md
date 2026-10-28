@@ -44,7 +44,9 @@ RELCOWHEELS/
     0001_init.sql               catalogue, registered visitors, listings, the lead ledger, RLS
     0002_blog_forum.sql         articles, tags, forum categories, threads, posts, revisions, reactions
     0003_harden.sql             the private schema, least privilege, pinned search_path
-  tools/dbcheck/                executes all three migrations, the catalogue seed, and 26 tests
+    0004_staff_created_stock.sql   a dealer and its stock can exist before anyone has signed up
+    0005_grant_is_admin_to_anon.sql  lets the public read the tables whose policies call is_admin()
+  tools/dbcheck/                executes all five migrations, the catalogue, the dealer import, 36 tests
   tools/check-site.mjs          the site gate: dashes, sanitiser, secrets, h1, identity, gitignore
   tools/seed-catalogue.mjs      turns data/catalogue.json into idempotent SQL
   tools/import-dealer-stock.mjs turns a dealer's CSV into SQL, refusing the whole file if any row fails
@@ -161,7 +163,7 @@ Check these once, by hand, after creating the project. If any is wrong, the work
 cd ~/Documents/apps/RELCOWHEELS/site
 npm run check:site        # dashes, sanitiser, secrets, h1 count, identity, gitignore
 npm run check:identity    # no two RELCO properties look alike
-npm run check:db          # all three migrations execute, plus 23 behaviour and security tests
+npm run check:db          # all five migrations execute, plus 36 behaviour and security tests
 ```
 
 ### Still open
@@ -201,7 +203,9 @@ npm run check:db          # all three migrations execute, plus 23 behaviour and 
 | Database schema, core | Written, `supabase/migrations/0001_init.sql` |
 | Database schema, blog and forum | Written, `supabase/migrations/0002_blog_forum.sql` |
 | Security hardening | Written, `supabase/migrations/0003_harden.sql` |
-| Schema validation | 315 statements and 26 behaviour and security tests pass, 30 of 30 tables have RLS. `tools/dbcheck` |
+| Staff-created dealers and stock | Written, `supabase/migrations/0004_staff_created_stock.sql` |
+| Public read path repaired | Written, `supabase/migrations/0005_grant_is_admin_to_anon.sql` |
+| Schema validation | 335 statements and 36 tests pass, 30 of 30 tables have RLS, public read path tested as `anon`. `tools/dbcheck` |
 | Vehicle catalogue | 22 makes, 71 models, 117 variants. Generates idempotent SQL, verified to load twice without duplicating |
 | Site gate | 6 checks pass across 60 built pages. `npm run check:site` |
 | Application scaffold | Built: tokens, layout, header, footer, cookie consent, sample notice |
@@ -240,7 +244,7 @@ real route.
 
 Everything that can be done without a browser is done. What is left:
 
-1. **Create the Supabase project and run the three migrations.** `docs/supabase-setup.md` has the
+1. **Run the five migrations, in order.** `docs/supabase-setup.md` has the
    exact steps, the two verification queries, and the four dashboard settings SQL cannot enforce.
 2. **Push to GitHub and import to Vercel.** `DEPLOY.md` has the steps. Remember the Root Directory is
    `site`, not the repo root.

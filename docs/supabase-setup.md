@@ -65,13 +65,15 @@ site gate fails the build if a public-prefixed secret appears in the source.
 
 ## 3. Run the migrations, in order
 
-**SQL Editor, New query.** Paste one file at a time and run it. Do not paste all three together; if
-the second fails you want to know which one.
+**SQL Editor, New query.** Paste one file at a time and run it. Do not paste them together; if the
+second fails you want to know which one.
 
 ```
 site/../supabase/migrations/0001_init.sql     catalogue, visitors, listings, lead ledger
              0002_blog_forum.sql              articles, forum, posts, revisions
              0003_harden.sql                  private schema, least privilege
+             0004_staff_created_stock.sql     dealers and stock before anyone signs up
+             0005_grant_is_admin_to_anon.sql  the public read path
 ```
 
 Paths from the project root:
@@ -80,6 +82,8 @@ Paths from the project root:
 supabase/migrations/0001_init.sql
 supabase/migrations/0002_blog_forum.sql
 supabase/migrations/0003_harden.sql
+supabase/migrations/0004_staff_created_stock.sql
+supabase/migrations/0005_grant_is_admin_to_anon.sql
 ```
 
 Each should report success. `0003` moves six tables into a new `private` schema, which is the step
@@ -87,6 +91,21 @@ that takes buyer phone numbers and dealer numbers out of the API's reach.
 
 **If `0003` errors on `create schema private`**, run `create schema private;` on its own first and then
 re-run the file. Some Supabase roles cannot create schemas inside a transaction.
+
+**`0005` fixes a bug worth knowing about**, because the symptom is misleading. `anon` had no execute
+privilege on `is_admin()`, and the row level security policies call it, so six tables answered the
+public API with `42501 permission denied for function is_admin`:
+
+```
+listings, articles, threads, posts, post_revisions, profiles
+```
+
+That is the marketplace, the blog, the forum and every member page. In the site it looks like an empty
+database rather than a permissions fault. If those pages ever go blank, check this first:
+
+```sql
+select has_function_privilege('anon', 'public.is_admin()', 'execute');   -- must be true
+```
 
 ## 4. Prove it worked
 
