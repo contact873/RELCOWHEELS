@@ -19,6 +19,10 @@ RELCOWHEELS/
   docs/
     plan-marketplace.md         the full build plan: routes, schema, SEO, lead engine, costs, risks
     plan-design-identity.md     the portfolio-wide design strategy, and why this property looks the way it does
+    dealer-onboarding.md        the consent process, the wording to use, and who to visit
+    supabase-setup.md           the browser steps to connect the database, and the checks that prove it
+    color-schemes.html          eight palette options, with contrast ratios computed live
+    palette-proposal-connect.html   the Connect before and after
 
   site/                         the Next.js 15 application
     src/app/tokens.css          THE FILE THAT DEFINES HOW THIS SITE LOOKS. Start here.
@@ -192,8 +196,10 @@ npm run check:db          # all three migrations execute, plus 23 behaviour and 
 | Schema validation | 242 statements and 23 behaviour and security tests pass, 30 of 30 tables have RLS. `tools/dbcheck` |
 | Site gate | 6 checks pass across 60 built pages. `npm run check:site` |
 | Application scaffold | Built: tokens, layout, header, footer, cookie consent, sample notice |
-| Pages | Built, 19 routes, 51 static pages |
+| Pages | Built, 21 routes, 66 static pages |
+| SEO plumbing | `robots.ts` and `sitemap.ts`, both gated on whether a database is configured |
 | Logo and tagline lockups | Built: 7 SVGs, 17 PNG exports, measured. `brand/BRAND-WHEELS.md` |
+| Repository | Initialised and committed locally at `0ad0d5d`, 96 files, working tree clean |
 | Seed data | 26 cars, 6 articles, 6 forum threads, 3 profiles |
 | Supabase project | Not created. Needs a browser |
 | Deployment | Not deployed. `DEPLOY.md` is ready |
@@ -220,11 +226,17 @@ real route.
 
 ## Next, in order
 
-1. The logo and tagline lockups. The R mark and its orange node carry over unchanged; everything
-   around them is built for Wheels.
-2. `0002_blog_forum.sql`, the schema behind the pages that already exist.
-3. The identity registry and checker across every RELCO property.
-4. Create the Supabase project, run both migrations, and point the site at it. This is the step that
-   removes the sample content banner and turns the forms on.
-5. Push to GitHub and import to Vercel, following `DEPLOY.md`. Remember the Root Directory is `site`.
-6. Seed real stock. Two hundred to three hundred Lahore cars, on the ground, with permission.
+Everything that can be done without a browser is done. What is left:
+
+1. **Create the Supabase project and run the three migrations.** `docs/supabase-setup.md` has the
+   exact steps, the two verification queries, and the four dashboard settings SQL cannot enforce.
+2. **Push to GitHub and import to Vercel.** `DEPLOY.md` has the steps. Remember the Root Directory is
+   `site`, not the repo root.
+3. **Seed `makes`, `models` and `variants`.** They are deliberately empty. Until they exist,
+   `/cars?make=suzuki` returns nothing.
+4. **Seed real stock.** Two hundred to three hundred Lahore cars, on the ground, with the dealer's
+   written permission. `docs/dealer-onboarding.md` is the process, `tools/import-dealer-stock.mjs` is
+   the importer.
+5. **The portfolio re-skins in `DESIGN-IDENTITY.md` section 6.** Connect and Business OS are done.
+   Consolidated, Agent School and the two demo templates still need their typefaces changed, and the
+   identity checker reports 5 remaining collisions until they are.
