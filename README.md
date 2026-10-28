@@ -210,8 +210,9 @@ npm run check:db          # all three migrations execute, plus 23 behaviour and 
 | Logo and tagline lockups | Built: 7 SVGs, 17 PNG exports, measured. `brand/BRAND-WHEELS.md` |
 | Repository | Initialised and committed locally at `0ad0d5d`, 96 files, working tree clean |
 | Seed data | 26 cars, 6 articles, 6 forum threads, 3 profiles |
-| Supabase project | Not created. Needs a browser |
-| Deployment | Not deployed. `DEPLOY.md` is ready |
+| Supabase project | **Live** at `ecjyqamcegxbnpidrfqb.supabase.co`. All three migrations applied, catalogue loaded |
+| Posture, verified against the live project | 22 public tables, 8 private. Six sensitive tables return 404 through the API; `profiles.email` and `dealers.phone` return "column does not exist" |
+| Deployment | GitHub pushed, 102 files. Vercel not yet confirmed |
 
 ### Pages that exist
 
