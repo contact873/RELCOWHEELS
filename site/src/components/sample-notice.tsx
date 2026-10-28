@@ -1,15 +1,18 @@
 import Link from "next/link";
+import { isSampleData } from "@/lib/data-source";
 
 /**
- * Shown whenever the application is running on seed data rather than a database.
+ * Shown while the site is reading from seed data rather than a database.
  *
- * This exists so that placeholder content can never be mistaken for real stock, by a dealer
- * viewing the site, by a buyer who stumbles onto a preview deployment, or by us six months from
- * now. It disappears on its own the moment NEXT_PUBLIC_SUPABASE_URL is set, so there is no switch
- * to remember to turn off.
+ * This exists so that placeholder content can never be mistaken for real stock, by a dealer viewing
+ * the site, by a buyer who stumbles onto a preview deployment, or by us six months from now.
+ *
+ * Note the gate: it is NEXT_PUBLIC_DATA_SOURCE, not "is a Supabase URL set". Gating on the URL
+ * looked right and was wrong: it hid the banner the moment a project existed, while the data layer
+ * was still serving invented cars. See src/lib/data-source.ts.
  */
 export function SampleNotice() {
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
+  if (!isSampleData()) return null;
 
   return (
     <div className="border-b border-border bg-bg-subtle">

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { isSampleData } from "@/lib/data-source";
 import {
   liveListings,
   publishedArticles,
@@ -8,7 +9,6 @@ import {
 } from "@/lib/queries";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://wheels.relcoai.com";
-const HAS_DATABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
 
 /**
  * The sitemap.
@@ -27,7 +27,7 @@ const HAS_DATABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
  * robots.ts. Both switch on together when a database is connected.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (!HAS_DATABASE) return [];
+  if (isSampleData()) return [];
 
   const now = new Date();
 

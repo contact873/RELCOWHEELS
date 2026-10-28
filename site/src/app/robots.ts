@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
+import { isSampleData } from "@/lib/data-source";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://wheels.relcoai.com";
-const HAS_DATABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
 
 /**
  * Crawl discipline.
@@ -27,7 +27,7 @@ const HAS_DATABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
  * that should rank.
  */
 export default function robots(): MetadataRoute.Robots {
-  if (!HAS_DATABASE) {
+  if (isSampleData()) {
     return {
       rules: [{ userAgent: "*", disallow: "/" }],
     };
