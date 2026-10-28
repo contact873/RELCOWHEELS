@@ -34,13 +34,15 @@ import path from "node:path";
 // ---------------------------------------------------------------------------
 
 function parseArgs(argv) {
-  const out = { csv: null, dealer: null, out: null, dryRun: false };
+  const out = { csv: null, dealer: null, out: null, dryRun: false, dealerName: null, city: "lahore" };
   const rest = argv.slice(2);
 
   for (let i = 0; i < rest.length; i += 1) {
     const a = rest[i];
     if (a === "--dry-run") out.dryRun = true;
     else if (a === "--dealer") out.dealer = rest[++i];
+    else if (a === "--dealer-name") out.dealerName = rest[++i];
+    else if (a === "--city") out.city = rest[++i];
     else if (a === "--out") out.out = rest[++i];
     else if (!a.startsWith("--")) out.csv = a;
     else fail(`Unknown option: ${a}`, 2);
@@ -49,6 +51,15 @@ function parseArgs(argv) {
   if (!out.csv) fail("No CSV given. Usage: node tools/import-dealer-stock.mjs <file.csv> --dealer <handle>", 2);
   if (!out.dealer) fail("No --dealer handle given. Every listing needs a seller.", 2);
   if (!/^[a-z0-9_]{3,30}$/.test(out.dealer)) fail(`Bad dealer handle "${out.dealer}". Lowercase letters, digits and underscores only.`, 2);
+
+  // The dealer row is created if it does not exist, because listings need a dealer_id and the whole
+  // point of migration 0004 is that a dealer record can exist before its owner has signed up.
+  if (!out.dealerName) {
+    out.dealerName = out.dealer
+      .split("_")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  }
 
   return out;
 }
@@ -439,10 +450,22 @@ if (args.dryRun) {
   process.exit(0);
 }
 
+const dealerUpsert = `-- The dealer record, created if it does not exist.
+--
+-- owner_id stays null: this is a business record created by us, on the dealer's written authority, and
+-- it gets claimed later when the owner signs up and we set owner_id. Migration 0004 made that legal.
+insert into public.dealers (name, slug, city_id)
+values (
+  ${q(args.dealerName)},
+  ${q(args.dealer)},
+  (select id from public.cities where slug = ${q(args.city)})
+)
+on conflict (slug) do nothing;`;
+
 const sql = [
   `-- RELCO Wheels, dealer stock import`,
   `-- Source: ${path.basename(csvPath)}`,
-  `-- Dealer: ${args.dealer}`,
+  `-- Dealer: ${args.dealer} (${args.dealerName})`,
   `-- Generated: ${new Date().toISOString()}`,
   `--`,
   `-- Before running this, confirm that ${args.dealer} has authorised us in writing to publish this`,
@@ -451,6 +474,8 @@ const sql = [
   `-- Photographs are assumed to be uploaded already, to dealers/${args.dealer}/ in Supabase Storage.`,
   ``,
   `begin;`,
+  ``,
+  dealerUpsert,
   ``,
   ...accepted.map((r) => listingSql(r, args.dealer)),
   ``,

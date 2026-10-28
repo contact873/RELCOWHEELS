@@ -22,14 +22,17 @@ Do not skip ahead. Each step depends on the one above it.
 1. 0001_init.sql          creates the tables and the reference data
 2. 0002_blog_forum.sql    creates the content tables
 3. 0003_harden.sql        moves the sensitive tables into the private schema
-4. data/catalogue.sql     fills makes, models and variants
-5. a dealer's stock       fills listings
+4. 0004_staff_created_stock.sql  lets a dealer and their stock exist before a signup
+5. data/catalogue.sql     fills makes, models and variants
+6. a dealer's stock       fills listings
 ```
 
 `0003` runs before the catalogue on purpose: it is the migration that changes where `user_trust` and
 `leads` live, and running it after data exists means moving rows rather than moving an empty table.
 
-## Step 1 to 3: the schema
+`0004` runs before any stock because it is what makes stock possible at all. See step 4.
+
+## Steps 1 to 3: the schema
 
 Supabase, **SQL Editor**, **New query**. Paste one file, run it, then the next.
 
@@ -47,7 +50,30 @@ city areas, the fourteen equipment keys, six forum categories and seven article 
 the migrations, because they are fixed reference data that never changes rather than content somebody
 maintains.
 
-## Step 4: the vehicle catalogue
+## Step 4: allow dealers who have not signed up yet
+
+`0004_staff_created_stock.sql`. Easy to skip and it breaks everything after it.
+
+The plan is that the first two hundred to three hundred cars go up because somebody walks into a
+showroom, photographs the cars and posts them on the dealer's behalf. The schema as first written made
+that impossible: `profiles.id` references `auth.users`, so a profile only exists once a person has
+signed up, and `listings.seller_id` was `NOT NULL`. No car could be listed until its seller had an
+account, which is the exact opposite of how a cold start works.
+
+What `0004` changes:
+
+| Before | After |
+|---|---|
+| `dealers.owner_id` NOT NULL | Nullable. A dealer record exists as a business before anyone claims it |
+| `listings.seller_id` NOT NULL | Nullable, with a new constraint requiring a seller **or** a dealer. Never neither |
+| `leads.seller_id` NOT NULL | Nullable, with the same recipient rule |
+| Policies only recognised `seller_id = auth.uid()` | A dealer can also manage and price the stock posted for them |
+
+`profiles.id` deliberately still references `auth.users`. Every row-level security policy compares a
+column to `auth.uid()`, and if that link were removed, all of them would silently stop matching. The
+fix belongs at the dealer and listing level, not the identity level.
+
+## Step 5: the vehicle catalogue
 
 `makes`, `models` and `variants` are deliberately empty in the migrations. They are the thing that
 changes whenever a new model launches, and a migration that has to be edited every time is a migration
@@ -71,25 +97,29 @@ It is idempotent, so running it again after adding a model updates rather than d
 **To add a model**, edit `data/catalogue.json`, regenerate, and run it again. That is the whole
 workflow. Keep `slug` matching `name` in lower case with hyphens, because the slug becomes the URL.
 
-## Step 5: your stock
+## Step 6: your stock
 
-Two ways in, and they are for different situations.
-
-**A dealer hands you a file.** Fill in `templates/dealer-stock-template.csv`, then:
+The importer does more than import. **It creates the dealer record if one does not exist**, with
+`owner_id` left null, so you do not need the dealer to have signed up first. That is what `0004` is
+for, and it is the difference between "post this dealer's cars for them" working and not working.
 
 ```bash
-node tools/import-dealer-stock.mjs stock/zahid-autos.csv --dealer zahid_autos --dry-run
-node tools/import-dealer-stock.mjs stock/zahid-autos.csv --dealer zahid_autos --out stock/zahid.sql
+node tools/import-dealer-stock.mjs stock/zahid-autos.csv \
+  --dealer zahid_autos --dealer-name "Zahid Autos" --dry-run
+
+# when it reports clean, emit the SQL
+node tools/import-dealer-stock.mjs stock/zahid-autos.csv \
+  --dealer zahid_autos --dealer-name "Zahid Autos" --out stock/zahid_autos.sql
 ```
 
-Paste `stock/zahid.sql` into the SQL editor. The importer refuses the whole file if any row fails,
-because a partly imported stock list is worse than none.
+Other options: `--city lahore` (default), `--out <path>`.
 
-It also creates the make, model and variant if they do not exist yet, so a dealer can list a car the
-catalogue has never seen.
+Paste `stock/zahid_autos.sql` into the SQL editor. The importer refuses the whole file if any row
+fails, because a partly imported stock list is worse than none, and it creates any make, model or
+variant the catalogue has never seen.
 
-**A member posts it themselves.** That is the `/sell` flow, and it needs the auth wiring finished and
-the service role key present on the server. Until then, use the CSV route.
+When the dealer eventually signs up, claim their record by setting `owner_id`, and they can then edit
+and price their own stock through the site.
 
 ## Running SQL without the dashboard
 

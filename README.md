@@ -208,11 +208,13 @@ npm run check:db          # all three migrations execute, plus 23 behaviour and 
 | Pages | Built, 21 routes, 66 static pages |
 | SEO plumbing | `robots.ts` and `sitemap.ts`, both gated on whether a database is configured |
 | Logo and tagline lockups | Built: 7 SVGs, 17 PNG exports, measured. `brand/BRAND-WHEELS.md` |
-| Repository | Initialised and committed locally at `0ad0d5d`, 96 files, working tree clean |
+| Repository | Pushed to GitHub, working tree clean |
 | Seed data | 26 cars, 6 articles, 6 forum threads, 3 profiles |
-| Supabase project | **Live** at `ecjyqamcegxbnpidrfqb.supabase.co`. All three migrations applied, catalogue loaded |
+| Supabase project | **Live** at `ecjyqamcegxbnpidrfqb.supabase.co`. All four migrations applied, catalogue loaded |
+| Catalogue, verified against the live project | 22 makes, 71 models, 117 variants. `engine_cc=eq.660` returns the Alto, Every and Mira variants |
 | Posture, verified against the live project | 22 public tables, 8 private. Six sensitive tables return 404 through the API; `profiles.email` and `dealers.phone` return "column does not exist" |
-| Deployment | GitHub pushed, 102 files. Vercel not yet confirmed |
+| Schema tests | 331 statements and 33 behaviour tests, all passing, in `tools/dbcheck`. Runs the real migrations against Postgres 16 in WebAssembly |
+| Deployment | GitHub pushed. Vercel not yet confirmed |
 
 ### Pages that exist
 
