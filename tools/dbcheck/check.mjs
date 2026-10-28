@@ -610,6 +610,38 @@ if (fs.existsSync(CATALOGUE_SQL)) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// The hardening migration must be safe to run twice
+//
+// This is not a nicety. The Supabase SQL editor commits each statement as it goes rather than running
+// the whole file in a transaction, so when 0003 failed partway it left the database half-hardened and
+// every retry then died on its first statement. The file is now guarded throughout; this proves it.
+// ---------------------------------------------------------------------------
+
+{
+  const harden = MIGRATIONS.find((f) => f.endsWith("0003_harden.sql"));
+  const adapted = adapt(fs.readFileSync(harden, "utf8"));
+
+  await test("the hardening migration is idempotent", async () => {
+    try {
+      await db.exec(adapted);
+    } catch (error) {
+      await db.exec("rollback").catch(() => {});
+      throw new Error(String(error.message).split("\n")[0]);
+    }
+
+    const r = await db.query(`
+      select
+        (select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace
+          where n.nspname = 'private' and c.relkind = 'r')::int as private_tables,
+        (select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace
+          where n.nspname = 'public' and c.relkind = 'r')::int as public_tables
+    `);
+    assert(r.rows[0].private_tables === 8, `expected 8 private tables, found ${r.rows[0].private_tables}`);
+    assert(r.rows[0].public_tables === 22, `expected 22 public tables, found ${r.rows[0].public_tables}`);
+  });
+}
+
 console.log("");
 console.log(`  ${passed} tests passed, ${failedTests} failed`);
 
