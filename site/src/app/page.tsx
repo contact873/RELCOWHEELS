@@ -76,9 +76,16 @@ export default function HomePage() {
           </div>
 
           <div className="order-first lg:order-none">
+            {/*
+              A hero photograph is illustration, so it may show a car that is not for sale here. A
+              listing photograph is evidence, so it may not. That is why this one stays while every
+              listing currently renders a labelled panel: this image claims nothing about any car.
+              The alt is empty on purpose, which marks it decorative and stops it asserting that it
+              is a photograph of something on this site.
+            */}
             <Image
               src="/cars/11-2.jpg"
-              alt="A car listed for sale in Lahore, photographed for its listing"
+              alt=""
               width={900}
               height={675}
               priority

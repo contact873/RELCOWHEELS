@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PhotoPlaceholder } from "@/components/photo-placeholder";
 import { publishedArticles } from "@/lib/queries";
 import { when } from "@/lib/format";
 
@@ -31,15 +32,19 @@ export default function BlogIndex() {
       {lead && (
         <article className="mt-10 grid gap-8 border-b border-border pb-10 lg:grid-cols-2">
           <Link href={`/blog/${lead.slug}`} className="block border border-border bg-bg-alt">
-            <Image
-              src={lead.coverPath ?? "/cars/11-2.jpg"}
-              alt=""
-              width={900}
-              height={675}
-              className="h-auto w-full"
-              sizes="(max-width: 1024px) 100vw, 560px"
-              priority
-            />
+            {lead.coverPath ? (
+              <Image
+                src={lead.coverPath}
+                alt=""
+                width={900}
+                height={675}
+                className="h-auto w-full"
+                sizes="(max-width: 1024px) 100vw, 560px"
+                priority
+              />
+            ) : (
+              <PhotoPlaceholder reference={lead.tags[0] ?? "editorial"} label="Illustration pending" />
+            )}
           </Link>
           <div className="flex flex-col justify-center">
             <p className="data text-xs uppercase tracking-[0.1em] text-brand">{lead.tags[0]}</p>

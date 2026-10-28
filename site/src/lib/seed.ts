@@ -4,9 +4,15 @@ import type { Article, ForumCategory, ForumThread, Listing, PublicProfile } from
  * SAMPLE CONTENT. Not real listings, and not a scraped copy of anybody else's listings.
  *
  * Every car below is invented, in the shape of the Lahore market rather than copied from it. The
- * three photographs are real car photographs owned by this business, cycled across a few listings
- * so the layout can be judged with actual photography in it. Everything else falls back to a
- * labelled placeholder panel, which is honest about the fact that no photograph exists yet.
+ * three photographs in the repository are real car photographs owned by this business, but nobody
+ * has confirmed which car each one shows, so none of them is attached to anything. Every listing
+ * and every article falls back to a labelled placeholder panel.
+ *
+ * That is deliberate, and it replaces behaviour that was wrong. The first version of this file
+ * cycled the three photographs across the listings, which is how a Honda Civic came to be
+ * illustrated with a Mercedes. A photograph on a listing is not decoration: it is evidence about
+ * the particular car being sold, so a picture of a different car is a false claim rather than a
+ * placeholder. See PHOTOS below for how a photograph is brought into service.
  *
  * The site renders a "Sample content" banner for as long as it is running on this file. See
  * src/components/sample-notice.tsx. Real stock arrives through tools/import-dealer-stock.mjs or
@@ -17,10 +23,33 @@ import type { Article, ForumCategory, ForumThread, Listing, PublicProfile } from
  * the site claims a number the data does not support.
  */
 
-const PHOTOS = ["/cars/13-1.jpg", "/cars/10-3.jpg", "/cars/11-2.jpg"];
+/**
+ * What each photograph shows, and therefore which listing may use it.
+ *
+ * A listing may only carry a photograph of the car it is selling, so a photograph is named by its
+ * subject before it can be used. `subject` is the make and model exactly as they appear in ROWS
+ * below, joined by a single space, for example `"Suzuki Alto"`.
+ *
+ * `null` means nobody has confirmed what the picture shows. It is then shown nowhere: not on a
+ * listing, not as an article cover. All three are null at the moment, which is why the site is
+ * currently illustrated entirely by placeholder panels.
+ *
+ * To bring one into service, look at the file and fill in its subject. The listings whose make and
+ * model match will pick it up on the next build, in this order, capped at how many photographs that
+ * listing declares. If no listing matches, it stays unused, which is the correct outcome: a
+ * photograph of a car nobody is selling is still not evidence about any car that is.
+ */
+const PHOTOS: { path: string; subject: string | null }[] = [
+  { path: "/cars/13-1.jpg", subject: null },
+  { path: "/cars/10-3.jpg", subject: null },
+  { path: "/cars/11-2.jpg", subject: null },
+];
 
-function photoFor(index: number, label: string) {
-  return { path: PHOTOS[index % PHOTOS.length], alt: label };
+function photosFor(make: string, model: string, supplied: number) {
+  if (supplied <= 0) return [];
+  return PHOTOS.filter((p) => p.subject === `${make} ${model}`)
+    .slice(0, supplied)
+    .map((p, i) => ({ path: p.path, alt: `${make} ${model}, photograph ${i + 1}` }));
 }
 
 interface Row {
@@ -114,9 +143,7 @@ function buildListings(): Listing[] {
   return ROWS.map((r, i) => {
     const seller = SELLERS[r.seller];
     const id = 1042 + i;
-    const photos = Array.from({ length: r.photos }, (_, p) =>
-      photoFor(i + p, `${r.year} ${r.make} ${r.model}, photograph ${p + 1}`),
-    );
+    const photos = photosFor(r.make, r.model, r.photos);
 
     return {
       id,
@@ -457,7 +484,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>The Alto is the easiest car in Pakistan to buy and the easiest to buy badly. It is cheap enough that people skip the checks they would run on a Corolla, and the costs they inherit are identical.</p><h2>Ask for the transmission invoice, not the engine one</h2><p>On the automatic, the gearbox is fine when it has been serviced and expensive when it has not, and the entire difference is a single piece of paper.</p><h2>Test the air conditioning from cold</h2><p>They commonly fail at around 60,000 km. Switch it on the moment you arrive, not after a ten minute drive when the cabin has already cooled and the fault is invisible.</p><h2>Look at the rear arches with a torch</h2><p>Surface rust starts there on anything that spent time near the coast. Look up under the arch lip rather than at the paint.</p><h2>Prefer the service record to the mileage</h2><p>A 70,000 km car with a full authorised workshop history is a better buy than a 45,000 km car with none.</p><h2>Compare against live listings, not against a dealer's opinion of the market</h2><p>Same year, same trim, this month, in your city. That is the only comparison that means anything.</p>",
     status: "published",
-    coverPath: "/cars/13-1.jpg",
+    coverPath: null,
     tags: ["buying", "suzuki", "inspection"],
     authorHandle: "bilal_cheema", authorName: "Bilal Cheema", isGuest: false,
     publishedAt: daysAgoIso(6), updatedAt: daysAgoIso(4), viewCount: 3412, readingMinutes: 4,
@@ -470,7 +497,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>Every listing on every Pakistani car site shows an asking price, and almost none shows what the car sold for. That single omission is why buyers negotiate blind and sellers wait months.</p><p>On the cars sold through this site so far, the gap between the final asking price and the price actually agreed ran between four and eleven percent. The cars that moved fastest were the ones priced closest to the market from the start, not the ones priced high to leave room.</p><p>Practically: treat the asking price as evidence of the seller's expectation, not of the car's value. Then compare it against several live examples of the same year and trim, and against the condition result.</p>",
     status: "published",
-    coverPath: "/cars/10-3.jpg",
+    coverPath: null,
     tags: ["prices", "buying"],
     authorHandle: "relco_editors", authorName: "RELCO Wheels", isGuest: false,
     publishedAt: daysAgoIso(10), updatedAt: daysAgoIso(10), viewCount: 5921, readingMinutes: 3,
@@ -483,7 +510,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>A grade 4.5 tells you the inspector thought the car was good. It does not tell you whether the interior is an A or a C, and those two cars are not worth the same money.</p><h2>The letter scores</h2><p>Interior and exterior are graded separately from A down to D. A car with a clean body and a tired cabin is priced like the cabin, not like the body.</p><h2>Panel markings</h2><p>The diagram records where the inspector found repairs. Two marked panels is not a disaster. Seven is a story, and the seller should be able to tell it.</p><h2>R and RA</h2><p>These mean the car had damage and it was repaired. They are disclosed, which is more than most local classifieds manage. Read which panels moved, and price accordingly.</p><h2>Shaken</h2><p>A current shaken on an older import tells you how the car has been kept, which is often more useful than the grade itself.</p>",
     status: "published",
-    coverPath: "/cars/11-2.jpg",
+    coverPath: null,
     tags: ["imports", "inspection"],
     authorHandle: "ibrar_h", authorName: "Ibrar Hussain", isGuest: false,
     publishedAt: daysAgoIso(13), updatedAt: daysAgoIso(13), viewCount: 4188, readingMinutes: 5,
@@ -496,7 +523,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>Buyers read photographs as evidence about the seller, not only about the car. A short set looks like something is being hidden, even when nothing is.</p><h2>The twelve</h2><p>Front three quarter, rear three quarter, both sides square, front, rear, dashboard with the odometer readable, both front seats, the rear bench, the boot floor, the engine bay.</p><h2>Daylight, car clean, phone held level</h2><p>Overcast light is better than direct sun. Wash the car first: it is the cheapest improvement available and almost nobody does it.</p><h2>Do not crop to a fixed shape</h2><p>Leave the photographs at their own proportions. Cropping a car to a square hides the part somebody wants to see.</p><h2>Photograph the faults</h2><p>A photographed scratch costs you a small negotiation. An undiscovered scratch costs you the sale, the travel and the trust.</p>",
     status: "published",
-    coverPath: "/cars/13-1.jpg",
+    coverPath: null,
     tags: ["selling"],
     authorHandle: "relco_editors", authorName: "RELCO Wheels", isGuest: false,
     publishedAt: daysAgoIso(17), updatedAt: daysAgoIso(17), viewCount: 2760, readingMinutes: 4,
@@ -509,7 +536,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>Almost every buyer works out the purchase price and stops. The third year is where the surprises sit, and they are predictable.</p><h2>Tyres and battery arrive together</h2><p>Carefully, around the third or fourth year, both. Budget for them rather than discovering them.</p><h2>Small imports cost more to repair than to run</h2><p>Fuel is cheap on a 660cc car. The parts come through fewer hands, so a single failure can cost more than a year of fuel.</p><h2>Suspension on Lahore roads</h2><p>Bushes and mounts are a running cost here, not a defect. A car with a fresh suspension refresh is worth paying a little more for.</p><h2>Keep the service record after the warranty ends</h2><p>It is what makes the car sellable in year five, and it costs nothing to keep.</p>",
     status: "published",
-    coverPath: "/cars/10-3.jpg",
+    coverPath: null,
     tags: ["ownership"],
     authorHandle: "bilal_cheema", authorName: "Bilal Cheema", isGuest: false,
     publishedAt: daysAgoIso(21), updatedAt: daysAgoIso(21), viewCount: 3310, readingMinutes: 4,
@@ -522,7 +549,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>An inspection records what a car was like on the day it was looked at. It is not a guarantee, and any site that implies otherwise is doing you no favours.</p><h2>What a condition score is</h2><p>An inspector's opinion, recorded on a date, across five areas. It is comparable between cars. It is not a prediction about yours.</p><h2>What it is not</h2><p>A warranty. A guarantee against anything failing next month. A substitute for looking at the car yourself, with your own eyes, before you pay.</p><h2>What we will not do</h2><p>We will not tell you a car is clean because a seller told us so. Where a car has not been inspected, the listing says so rather than showing an empty score that reads like a good one.</p>",
     status: "published",
-    coverPath: "/cars/11-2.jpg",
+    coverPath: null,
     tags: ["inspection", "trust"],
     authorHandle: "relco_editors", authorName: "RELCO Wheels", isGuest: false,
     publishedAt: daysAgoIso(24), updatedAt: daysAgoIso(24), viewCount: 1877, readingMinutes: 3,
