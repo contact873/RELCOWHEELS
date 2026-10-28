@@ -1,0 +1,374 @@
+{
+  "_comment": "The vehicle catalogue for the Pakistani market. Read by tools/seed-catalogue.mjs, which turns it into SQL. Add models here rather than in a migration: a migration that has to be edited every time a new model launches is a migration nobody trusts. engine_cc is the round figure the market quotes, not the exact displacement.",
+  "makes": [
+    {
+      "name": "Suzuki", "slug": "suzuki",
+      "models": [
+        { "name": "Alto", "slug": "alto", "variants": [
+          { "name": "VXR", "slug": "vxr", "engine_cc": 660, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
+          { "name": "VXL", "slug": "vxl", "engine_cc": 660, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
+          { "name": "VXL AGS", "slug": "vxl-ags", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
+        ] },
+        { "name": "Cultus", "slug": "cultus", "variants": [
+          { "name": "VXR", "slug": "vxr", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "VXL", "slug": "vxl", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "VXL AGS", "slug": "vxl-ags", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Wagon R", "slug": "wagon-r", "variants": [
+          { "name": "VXR", "slug": "vxr", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "VXL", "slug": "vxl", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "VXL AGS", "slug": "vxl-ags", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Swift", "slug": "swift", "variants": [
+          { "name": "GL", "slug": "gl", "engine_cc": 1200, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "GLX", "slug": "glx", "engine_cc": 1200, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Mehran", "slug": "mehran", "variants": [
+          { "name": "VX", "slug": "vx", "engine_cc": 800, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
+          { "name": "VXR", "slug": "vxr", "engine_cc": 800, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
+        ] },
+        { "name": "Bolan", "slug": "bolan", "variants": [
+          { "name": "Cargo", "slug": "cargo", "engine_cc": 800, "transmission": "manual", "fuel": "petrol", "body_type": "Van", "seats": 7 }
+        ] },
+        { "name": "Every", "slug": "every", "variants": [
+          { "name": "Join", "slug": "join", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Van", "seats": 7 },
+          { "name": "PA", "slug": "pa", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Van", "seats": 7 }
+        ] },
+        { "name": "Jimny", "slug": "jimny", "variants": [
+          { "name": "JLX", "slug": "jlx", "engine_cc": 1500, "transmission": "manual", "fuel": "petrol", "body_type": "SUV", "seats": 4 },
+          { "name": "GLX", "slug": "glx", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 4 }
+        ] }
+      ]
+    },
+    {
+      "name": "Toyota", "slug": "toyota",
+      "models": [
+        { "name": "Corolla", "slug": "corolla", "variants": [
+          { "name": "XLi 1.3", "slug": "xli-1-3", "engine_cc": 1300, "transmission": "manual", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "GLi 1.3", "slug": "gli-1-3", "engine_cc": 1300, "transmission": "manual", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "Altis 1.6 Automatic", "slug": "altis-1-6-automatic", "engine_cc": 1600, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "Altis Grande 1.8", "slug": "altis-grande-1-8", "engine_cc": 1800, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "Yaris", "slug": "yaris", "variants": [
+          { "name": "1.3 ATIV", "slug": "1-3-ativ", "engine_cc": 1300, "transmission": "manual", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "1.5 ATIV X CVT", "slug": "1-5-ativ-x-cvt", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "Prius", "slug": "prius", "variants": [
+          { "name": "S", "slug": "s", "engine_cc": 1800, "transmission": "automatic", "fuel": "hybrid", "body_type": "Hatchback", "seats": 5 },
+          { "name": "S Touring Selection", "slug": "s-touring-selection", "engine_cc": 1800, "transmission": "automatic", "fuel": "hybrid", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Vitz", "slug": "vitz", "variants": [
+          { "name": "F", "slug": "f", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "FL", "slug": "fl", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Fortuner", "slug": "fortuner", "variants": [
+          { "name": "2.7 VVTi", "slug": "2-7-vvti", "engine_cc": 2700, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 },
+          { "name": "2.8 Sigma 4", "slug": "2-8-sigma-4", "engine_cc": 2800, "transmission": "automatic", "fuel": "diesel", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "Prado", "slug": "prado", "variants": [
+          { "name": "TX", "slug": "tx", "engine_cc": 2700, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 },
+          { "name": "TX L Package", "slug": "tx-l-package", "engine_cc": 2700, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "Land Cruiser", "slug": "land-cruiser", "variants": [
+          { "name": "V8 ZX", "slug": "v8-zx", "engine_cc": 4600, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 },
+          { "name": "V8 VX", "slug": "v8-vx", "engine_cc": 4600, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "Hilux", "slug": "hilux", "variants": [
+          { "name": "Single Cabin", "slug": "single-cabin", "engine_cc": 2800, "transmission": "manual", "fuel": "diesel", "body_type": "Pick Up", "seats": 2 },
+          { "name": "Revo Double Cabin", "slug": "revo-double-cabin", "engine_cc": 2800, "transmission": "automatic", "fuel": "diesel", "body_type": "Double Cabin", "seats": 5 }
+        ] },
+        { "name": "Hiace", "slug": "hiace", "variants": [
+          { "name": "Standard", "slug": "standard", "engine_cc": 2700, "transmission": "manual", "fuel": "diesel", "body_type": "Van", "seats": 12 },
+          { "name": "Grand Cabin", "slug": "grand-cabin", "engine_cc": 2700, "transmission": "manual", "fuel": "diesel", "body_type": "Van", "seats": 14 }
+        ] },
+        { "name": "Camry", "slug": "camry", "variants": [
+          { "name": "2.4", "slug": "2-4", "engine_cc": 2400, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "2.5 Hybrid", "slug": "2-5-hybrid", "engine_cc": 2500, "transmission": "automatic", "fuel": "hybrid", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "Raize", "slug": "raize", "variants": [
+          { "name": "X", "slug": "x", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "Z", "slug": "z", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "Passo", "slug": "passo", "variants": [
+          { "name": "X", "slug": "x", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "Moda G", "slug": "moda-g", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Honda", "slug": "honda",
+      "models": [
+        { "name": "Civic", "slug": "civic", "variants": [
+          { "name": "VTi 1.8", "slug": "vti-1-8", "engine_cc": 1800, "transmission": "manual", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "Oriel 1.8 i-VTEC CVT", "slug": "oriel-1-8-i-vtec-cvt", "engine_cc": 1800, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "RS Turbo", "slug": "rs-turbo", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "City", "slug": "city", "variants": [
+          { "name": "1.3 i-VTEC", "slug": "1-3-i-vtec", "engine_cc": 1300, "transmission": "manual", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "1.3 i-VTEC Prosmatec", "slug": "1-3-i-vtec-prosmatec", "engine_cc": 1300, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "1.5 Aspire CVT", "slug": "1-5-aspire-cvt", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "BR-V", "slug": "br-v", "variants": [
+          { "name": "i-VTEC S", "slug": "i-vtec-s", "engine_cc": 1500, "transmission": "manual", "fuel": "petrol", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "HR-V", "slug": "hr-v", "variants": [
+          { "name": "VTi-S", "slug": "vti-s", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Crossover", "seats": 5 }
+        ] },
+        { "name": "Vezel", "slug": "vezel", "variants": [
+          { "name": "X Honda Sensing", "slug": "x-honda-sensing", "engine_cc": 1500, "transmission": "automatic", "fuel": "hybrid", "body_type": "Crossover", "seats": 5 },
+          { "name": "Z", "slug": "z", "engine_cc": 1500, "transmission": "automatic", "fuel": "hybrid", "body_type": "Crossover", "seats": 5 }
+        ] },
+        { "name": "Accord", "slug": "accord", "variants": [
+          { "name": "2.4", "slug": "2-4", "engine_cc": 2400, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "KIA", "slug": "kia",
+      "models": [
+        { "name": "Sportage", "slug": "sportage", "variants": [
+          { "name": "FWD", "slug": "fwd", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "AWD", "slug": "awd", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "Alpha", "slug": "alpha", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "Picanto", "slug": "picanto", "variants": [
+          { "name": "1.0 Manual", "slug": "1-0-manual", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },
+          { "name": "1.0 Automatic", "slug": "1-0-automatic", "engine_cc": 1000, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Stonic", "slug": "stonic", "variants": [
+          { "name": "EX", "slug": "ex", "engine_cc": 1400, "transmission": "automatic", "fuel": "petrol", "body_type": "Crossover", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Hyundai", "slug": "hyundai",
+      "models": [
+        { "name": "Tucson", "slug": "tucson", "variants": [
+          { "name": "FWD GLS Sport", "slug": "fwd-gls-sport", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "AWD Ultimate", "slug": "awd-ultimate", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "Elantra", "slug": "elantra", "variants": [
+          { "name": "GLS", "slug": "gls", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "Santro", "slug": "santro", "variants": [
+          { "name": "GL", "slug": "gl", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Sonata", "slug": "sonata", "variants": [
+          { "name": "2.5", "slug": "2-5", "engine_cc": 2500, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Daihatsu", "slug": "daihatsu",
+      "models": [
+        { "name": "Mira", "slug": "mira", "variants": [
+          { "name": "L SA III", "slug": "l-sa-iii", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
+          { "name": "X", "slug": "x", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
+        ] },
+        { "name": "Cuore", "slug": "cuore", "variants": [
+          { "name": "CX", "slug": "cx", "engine_cc": 850, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Move", "slug": "move", "variants": [
+          { "name": "L", "slug": "l", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
+        ] }
+      ]
+    },
+    {
+      "name": "Nissan", "slug": "nissan",
+      "models": [
+        { "name": "Dayz", "slug": "dayz", "variants": [
+          { "name": "Highway Star", "slug": "highway-star", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
+          { "name": "X", "slug": "x", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
+        ] },
+        { "name": "Note", "slug": "note", "variants": [
+          { "name": "e-Power", "slug": "e-power", "engine_cc": 1200, "transmission": "automatic", "fuel": "hybrid", "body_type": "Hatchback", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Changan", "slug": "changan",
+      "models": [
+        { "name": "Alsvin", "slug": "alsvin", "variants": [
+          { "name": "Comfort", "slug": "comfort", "engine_cc": 1400, "transmission": "manual", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "Lumiere", "slug": "lumiere", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "Oshan X7", "slug": "oshan-x7", "variants": [
+          { "name": "Comfort", "slug": "comfort", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 },
+          { "name": "FutureSense", "slug": "futuresense", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "Karvaan", "slug": "karvaan", "variants": [
+          { "name": "Base", "slug": "base", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Van", "seats": 7 }
+        ] }
+      ]
+    },
+    {
+      "name": "MG", "slug": "mg",
+      "models": [
+        { "name": "HS", "slug": "hs", "variants": [
+          { "name": "1.5 Turbo", "slug": "1-5-turbo", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "Trophy", "slug": "trophy", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "ZS", "slug": "zs", "variants": [
+          { "name": "1.5", "slug": "1-5", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "EV", "slug": "ev", "engine_cc": null, "transmission": "automatic", "fuel": "electric", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Haval", "slug": "haval",
+      "models": [
+        { "name": "H6", "slug": "h6", "variants": [
+          { "name": "1.5 Turbo", "slug": "1-5-turbo", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 },
+          { "name": "HEV", "slug": "hev", "engine_cc": 1500, "transmission": "automatic", "fuel": "hybrid", "body_type": "SUV", "seats": 5 },
+          { "name": "PHEV", "slug": "phev", "engine_cc": 1500, "transmission": "automatic", "fuel": "hybrid", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "Jolion", "slug": "jolion", "variants": [
+          { "name": "1.5 Turbo", "slug": "1-5-turbo", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Crossover", "seats": 5 },
+          { "name": "HEV", "slug": "hev", "engine_cc": 1500, "transmission": "automatic", "fuel": "hybrid", "body_type": "Crossover", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Jaecoo", "slug": "jaecoo",
+      "models": [
+        { "name": "J5", "slug": "j5", "variants": [
+          { "name": "Premium", "slug": "premium", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "J7", "slug": "j7", "variants": [
+          { "name": "SHS", "slug": "shs", "engine_cc": 1600, "transmission": "automatic", "fuel": "hybrid", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Chery", "slug": "chery",
+      "models": [
+        { "name": "Tiggo 8 Pro", "slug": "tiggo-8-pro", "variants": [
+          { "name": "1.6 DEX Plus", "slug": "1-6-dex-plus", "engine_cc": 1600, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "Tiggo 4 Pro", "slug": "tiggo-4-pro", "variants": [
+          { "name": "Comfort", "slug": "comfort", "engine_cc": 1500, "transmission": "automatic", "fuel": "petrol", "body_type": "Crossover", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "BYD", "slug": "byd",
+      "models": [
+        { "name": "Atto 3", "slug": "atto-3", "variants": [
+          { "name": "Standard", "slug": "standard", "engine_cc": null, "transmission": "automatic", "fuel": "electric", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "Sealion 6", "slug": "sealion-6", "variants": [
+          { "name": "DM-i", "slug": "dm-i", "engine_cc": 1500, "transmission": "automatic", "fuel": "hybrid", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Mercedes Benz", "slug": "mercedes-benz",
+      "models": [
+        { "name": "C Class", "slug": "c-class", "variants": [
+          { "name": "C180", "slug": "c180", "engine_cc": 1600, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "C200", "slug": "c200", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "E Class", "slug": "e-class", "variants": [
+          { "name": "E200", "slug": "e200", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "E250", "slug": "e250", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "S Class", "slug": "s-class", "variants": [
+          { "name": "S500", "slug": "s500", "engine_cc": 4700, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "G Class", "slug": "g-class", "variants": [
+          { "name": "G63 AMG", "slug": "g63-amg", "engine_cc": 4000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "BMW", "slug": "bmw",
+      "models": [
+        { "name": "3 Series", "slug": "3-series", "variants": [
+          { "name": "318i", "slug": "318i", "engine_cc": 1600, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 },
+          { "name": "320i", "slug": "320i", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "5 Series", "slug": "5-series", "variants": [
+          { "name": "520i", "slug": "520i", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "X5", "slug": "x5", "variants": [
+          { "name": "xDrive40i", "slug": "xdrive40i", "engine_cc": 3000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Audi", "slug": "audi",
+      "models": [
+        { "name": "A4", "slug": "a4", "variants": [
+          { "name": "1.4 TFSI", "slug": "1-4-tfsi", "engine_cc": 1400, "transmission": "automatic", "fuel": "petrol", "body_type": "Sedan", "seats": 5 }
+        ] },
+        { "name": "Q5", "slug": "q5", "variants": [
+          { "name": "45 TFSI", "slug": "45-tfsi", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Lexus", "slug": "lexus",
+      "models": [
+        { "name": "LX", "slug": "lx", "variants": [
+          { "name": "LX570", "slug": "lx570", "engine_cc": 5700, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 8 }
+        ] },
+        { "name": "RX", "slug": "rx", "variants": [
+          { "name": "RX350", "slug": "rx350", "engine_cc": 3500, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Mitsubishi", "slug": "mitsubishi",
+      "models": [
+        { "name": "Pajero", "slug": "pajero", "variants": [
+          { "name": "GLS", "slug": "gls", "engine_cc": 3000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 7 }
+        ] },
+        { "name": "L200", "slug": "l200", "variants": [
+          { "name": "Double Cab", "slug": "double-cab", "engine_cc": 2400, "transmission": "manual", "fuel": "diesel", "body_type": "Double Cabin", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Isuzu", "slug": "isuzu",
+      "models": [
+        { "name": "D-Max", "slug": "d-max", "variants": [
+          { "name": "Single Cab", "slug": "single-cab", "engine_cc": 2500, "transmission": "manual", "fuel": "diesel", "body_type": "Pick Up", "seats": 2 },
+          { "name": "Double Cab", "slug": "double-cab", "engine_cc": 2500, "transmission": "manual", "fuel": "diesel", "body_type": "Double Cabin", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Mazda", "slug": "mazda",
+      "models": [
+        { "name": "CX-5", "slug": "cx-5", "variants": [
+          { "name": "2.0", "slug": "2-0", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "MX-5", "slug": "mx-5", "variants": [
+          { "name": "Roadster", "slug": "roadster", "engine_cc": 1500, "transmission": "manual", "fuel": "petrol", "body_type": "Convertible", "seats": 2 }
+        ] }
+      ]
+    },
+    {
+      "name": "Land Rover", "slug": "land-rover",
+      "models": [
+        { "name": "Range Rover", "slug": "range-rover", "variants": [
+          { "name": "Vogue", "slug": "vogue", "engine_cc": 3000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] },
+        { "name": "Defender", "slug": "defender", "variants": [
+          { "name": "110", "slug": "110", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    },
+    {
+      "name": "Volkswagen", "slug": "volkswagen",
+      "models": [
+        { "name": "Golf", "slug": "golf", "variants": [
+          { "name": "1.4 TSI", "slug": "1-4-tsi", "engine_cc": 1400, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 }
+        ] },
+        { "name": "Tiguan", "slug": "tiguan", "variants": [
+          { "name": "2.0 TSI", "slug": "2-0-tsi", "engine_cc": 2000, "transmission": "automatic", "fuel": "petrol", "body_type": "SUV", "seats": 5 }
+        ] }
+      ]
+    }
+  ]
+}

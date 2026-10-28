@@ -12,13 +12,42 @@ Estimated: twenty minutes, mostly waiting for the project to provision.
 1. Go to `https://supabase.com/dashboard` and sign in.
 2. **New project**.
 3. Name: `relco-wheels`
-4. **Region: Southeast Asia (Singapore).** Not the default US region. Pakistan is roughly 200ms from
-   Singapore and 250ms from Frankfurt, but every query here is regional traffic, so pick the nearest.
-5. Database password: generate one and **store it in a password manager**. It is shown once and it is
-   not the same as the keys you will use in the app.
+4. **Region.** Close `Need a specific region?` and read the next table before choosing.
+5. Database password: generate one and **store it in a password manager**. It is shown once, and it is
+   not the same as the keys the app uses.
 6. Plan: Free.
 
 Wait for provisioning, about two minutes.
+
+### The region, and the mistake that is easy to make here
+
+**The database talks to Vercel, not to the visitor.** So the latency that matters is Supabase to the
+Vercel function, not Supabase to a phone in Lahore. Choosing the region closest to the users is the
+obvious move and it is the wrong one.
+
+| If Vercel functions run in | Choose this Supabase region |
+|---|---|
+| Singapore (`sin1`), set in Vercel under Settings, Functions | **Southeast Asia (Singapore)** |
+| Washington DC (`iad1`), which is the free plan default | **US East (N. Virginia)** |
+
+The combination to avoid is Vercel in Washington DC with Supabase in Singapore, which puts roughly
+200ms on every query by crossing the Pacific twice. Either pairing above is fine at this scale.
+
+### The three security toggles on the same screen
+
+| Setting | Set it to | Why |
+|---|---|---|
+| **Enable Data API** | **ON** | The site reaches the database through this REST layer. With it off there is no API. |
+| **Automatically expose new tables** | **OFF** | On, it grants privileges to the API roles for every new table by default. That silently re-opens exactly what `0003_harden.sql` closes. Off matches the design: explicit grants only. |
+| **Enable automatic RLS** | **ON** | Puts an event trigger on the database so any new table gets row level security enabled automatically. It writes no policies, so a new table fails closed, which is the failure mode you want. |
+
+Two things follow, and both are intentional:
+
+- With auto-expose off, a future migration that creates a table will **not** be readable by the site
+  until somebody grants it. That looks like a bug and is not: it is the opposite of publishing a table
+  nobody meant to publish.
+- Automatic RLS does not replace the migrations. It only covers tables created afterwards, and it only
+  enables RLS. The migrations already enable it on all 30 tables and write the 51 policies.
 
 ## 2. Copy the two keys
 

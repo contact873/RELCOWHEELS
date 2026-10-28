@@ -21,8 +21,13 @@ RELCOWHEELS/
     plan-design-identity.md     the portfolio-wide design strategy, and why this property looks the way it does
     dealer-onboarding.md        the consent process, the wording to use, and who to visit
     supabase-setup.md           the browser steps to connect the database, and the checks that prove it
+    filling-the-database.md     what goes in, in what order, and how
     color-schemes.html          eight palette options, with contrast ratios computed live
     palette-proposal-connect.html   the Connect before and after
+
+  data/
+    catalogue.json              22 makes, 71 models, 117 variants. Edit here, not in a migration
+    catalogue.sql               generated. Paste into Supabase
 
   site/                         the Next.js 15 application
     src/app/tokens.css          THE FILE THAT DEFINES HOW THIS SITE LOOKS. Start here.
@@ -39,8 +44,11 @@ RELCOWHEELS/
     0001_init.sql               catalogue, registered visitors, listings, the lead ledger, RLS
     0002_blog_forum.sql         articles, tags, forum categories, threads, posts, revisions, reactions
     0003_harden.sql             the private schema, least privilege, pinned search_path
-  tools/dbcheck/                executes all three migrations and tests them. See its README
+  tools/dbcheck/                executes all three migrations, the catalogue seed, and 26 tests
   tools/check-site.mjs          the site gate: dashes, sanitiser, secrets, h1, identity, gitignore
+  tools/seed-catalogue.mjs      turns data/catalogue.json into idempotent SQL
+  tools/import-dealer-stock.mjs turns a dealer's CSV into SQL, refusing the whole file if any row fails
+  templates/                    the CSV a dealer fills in
 
   brand/                        logo, tagline lockups and exports. See brand/BRAND-WHEELS.md
     logo/                       7 SVGs: mark, roundel, three lockups, two mono variants
@@ -193,7 +201,8 @@ npm run check:db          # all three migrations execute, plus 23 behaviour and 
 | Database schema, core | Written, `supabase/migrations/0001_init.sql` |
 | Database schema, blog and forum | Written, `supabase/migrations/0002_blog_forum.sql` |
 | Security hardening | Written, `supabase/migrations/0003_harden.sql` |
-| Schema validation | 242 statements and 23 behaviour and security tests pass, 30 of 30 tables have RLS. `tools/dbcheck` |
+| Schema validation | 315 statements and 26 behaviour and security tests pass, 30 of 30 tables have RLS. `tools/dbcheck` |
+| Vehicle catalogue | 22 makes, 71 models, 117 variants. Generates idempotent SQL, verified to load twice without duplicating |
 | Site gate | 6 checks pass across 60 built pages. `npm run check:site` |
 | Application scaffold | Built: tokens, layout, header, footer, cookie consent, sample notice |
 | Pages | Built, 21 routes, 66 static pages |
