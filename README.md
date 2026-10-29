@@ -22,6 +22,9 @@ RELCOWHEELS/
     dealer-onboarding.md        the consent process, the wording to use, and who to visit
     supabase-setup.md           the browser steps to connect the database, and the checks that prove it
     filling-the-database.md     what goes in, in what order, and how
+    email.md                    what email is for here, and why none of it is built yet
+    security-scan.md            VibeGuard, npm audit and Semgrep, and what they could not see
+    design-craft.md             the design principles taken from the two reference sites
     color-schemes.html          eight palette options, with contrast ratios computed live
     palette-proposal-connect.html   the Connect before and after
 
@@ -200,6 +203,8 @@ npm run check:db          # all five migrations execute, plus 36 behaviour and s
 | Marketplace plan | Written, `docs/plan-marketplace.md` |
 | Design identity strategy | Written, `docs/plan-design-identity.md` |
 | Dealer onboarding and consent | Written, `docs/dealer-onboarding.md` |
+| Email | Decided, not built. Resend is the provider. `docs/email.md` |
+| Security scan | VibeGuard 100/A+ with 0 actionable, Semgrep 128 rules with 0 findings, npm audit 0 vulnerabilities. `docs/security-scan.md` |
 | Database schema, core | Written, `supabase/migrations/0001_init.sql` |
 | Database schema, blog and forum | Written, `supabase/migrations/0002_blog_forum.sql` |
 | Security hardening | Written, `supabase/migrations/0003_harden.sql` |
