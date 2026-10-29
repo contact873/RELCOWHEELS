@@ -96,9 +96,31 @@ producing a bad page:
 
 ## Before shipping a page
 
-1. `npm run build` then `npm run check:site`, for one `h1` per page and the six other checks.
+1. `npm run build` then `npm run check:site`, which is eight checks: no em or en dashes, every HTML
+   injection through the sanitiser, no secret patterns, one `h1` per page, **no heading level
+   skipped**, the identity registry matching the stylesheet, and `.env` files ignored.
 2. `node ../tools/check-identity.mjs`, for portfolio collisions.
 3. Load it on the production server, not just the build, because the browse page is server rendered
    and never appears as a file.
-4. Click every link you added.
-5. Read every number and ask where it comes from. If the answer is "I wrote it", derive it instead.
+4. **Drive it in a real browser at 320, 375 and 1440.** This is not optional garnish. Three real
+   defects were found this way and none of them were visible in a build:
+   - the forum reply box had no accessible name, so a screen reader announced an unlabelled edit box
+   - the footer's column headings were `h3`, so five pages went `h1` straight to `h3`
+   - the cookie tables pushed a 320px phone 18px sideways, because three columns and a long
+     monospace token have a minimum width of about 318px against 280px of available content width
+
+   The second one is now caught by the gate instead, since the served HTML lists headings in
+   document order. The other two still need a browser.
+5. Click every link you added. Six footer links once 404ed because they were written as nested
+   routes when browsing uses query parameters on one page.
+6. Read every number and ask where it comes from. If the answer is "I wrote it", derive it instead.
+
+## What a browser pass must check
+
+- `document.documentElement.scrollWidth` equal to `clientWidth`, at each width, on every route.
+  Anything else means something is dragging the page sideways.
+- One `h1`, one `main`, one `header`, one `footer`, and `lang="en"`.
+- No link or button with an empty accessible name, no image missing `alt`, no heading level skipped.
+- For each form field: a label, an `aria-label`, or a wrapping label. **Hidden inputs are exempt**,
+  since they are not focusable and are never announced. An earlier version of this check counted
+  them and produced two false positives.
