@@ -224,8 +224,8 @@ npm run check:db          # all five migrations execute, plus 36 behaviour and s
 | Supabase project | **Production** is `ecjyqamcegxbnpidrfqb`: all five migrations applied, catalogue loaded. **Staging** is `vrgjqwppdeoyhjgmkaca`: empty, not yet migrated. `supabase/projects.json` |
 | Catalogue, verified against the live project | 22 makes, 71 models, 117 variants. `engine_cc=eq.660` returns the Alto, Every and Mira variants |
 | Posture, verified against the live project | 22 public tables, 8 private. Six sensitive tables return 404 through the API; `profiles.email` and `dealers.phone` return "column does not exist" |
-| Schema tests | 331 statements and 33 behaviour tests, all passing, in `tools/dbcheck`. Runs the real migrations against Postgres 16 in WebAssembly |
-| Deployment | GitHub pushed. Vercel not yet confirmed |
+| Schema tests | 335 statements and 36 behaviour tests, all passing, in `tools/dbcheck`. Runs the real migrations against Postgres 16 in WebAssembly |
+| Deployment | Live at `relcowheels.vercel.app`, deployed from `main` on push. Verified there: 203 browser checks across 29 routes and 7 widths, no overflow, no accessibility gap |
 
 ### Pages that exist
 
