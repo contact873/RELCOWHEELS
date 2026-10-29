@@ -205,6 +205,7 @@ npm run check:db          # all five migrations execute, plus 36 behaviour and s
 | Marketplace plan | Written, `docs/plan-marketplace.md` |
 | Design identity strategy | Written, `docs/plan-design-identity.md` |
 | Dealer onboarding and consent | Written, `docs/dealer-onboarding.md` |
+| Dealer preview pages | `/dealers/<slug>` per dealership, unlisted and noindex until they authorise in writing. Listed at `/dealers`, which is also unlisted. `site/src/lib/prospects.ts` |
 | Email | Decided, not built. Resend is the provider. `docs/email.md` |
 | Security scan | VibeGuard 100/A+ with 0 actionable, Semgrep 128 rules with 0 findings, npm audit 0 vulnerabilities. `docs/security-scan.md` |
 | Database schema, core | Written, `supabase/migrations/0001_init.sql` |

@@ -187,6 +187,37 @@ So the sharper plan is:
 If you would rather go general from the start, say so and I will adjust. But the network you already
 have points one way.
 
+## The preview page, for step 1
+
+There is a page per dealership at `/dealers/<slug>`, built to be sent to them rather than found by
+them. It carries their name, their city, what a dealership gets, and their stock if we hold it.
+
+The pages are listed at **`/dealers`**. Reach it by typing the address: it is not linked from
+anywhere on the site and it is not in the sitemap, because while any of these carries a real
+company's name it is a sales document rather than a page of the marketplace.
+
+Adding one is a single entry in `site/src/lib/prospects.ts`. Three rules govern that file, and they
+are the same rules as everywhere else in this project:
+
+| Field | Rule |
+|---|---|
+| `phone`, `whatsapp` | Empty unless **they** gave us the number. Their number being on their own site is not permission to put it on ours, because that routes their callers somewhere they did not choose. |
+| `addressLines` | Their published address is fine. Cited in `notes` so it is clear where it came from. |
+| `stockCount` | `null` until somebody counts. A guess here is a number we would have to defend. |
+
+**A page stays out of search until `status` is `"live"` and `authorisedOn` holds a date.** That is
+enforced in `isIndexable()` rather than left to discipline, and it renders a loud banner at the top
+of anything that is not authorised. The failure this prevents is specific and expensive: a dealer
+finding their own name on our site, in Google, before we have spoken to them.
+
+**The empty state is the honest state.** A prospect page with no authorised stock says so and shows
+the four steps above, rather than filling the space with plausible-looking cars. Inventing stock for
+a real business is the Mercedes-on-the-Honda mistake at the scale of a whole company.
+
+Once they authorise, the sequence is: set `authorisedOn` and `status: "live"`, fill `handle` so the
+page can find their listings, and import. The banner disappears on its own, because it renders
+nothing for an authorised dealership.
+
 ## Target
 
 Two hundred to three hundred real Lahore cars before the site is shown to anybody. That is roughly
