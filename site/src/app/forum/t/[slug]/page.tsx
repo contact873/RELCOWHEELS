@@ -141,7 +141,18 @@ export default async function ThreadPage({ params }: { params: Params }) {
               away.
             </p>
             <div className="mt-4 space-y-3">
+              {/*
+                The label is sr-only rather than visible because the heading above already says
+                "Reply". It exists anyway: without it the textarea has no accessible name, so a
+                screen reader announces an unlabelled edit box, and the placeholder is not a
+                substitute for a label, since it disappears the moment somebody types.
+              */}
+              <label className="sr-only" htmlFor="reply-body">
+                Your reply
+              </label>
               <textarea
+                id="reply-body"
+                name="body"
                 rows={4}
                 placeholder="What do you want to add?"
                 className="w-full border border-border bg-bg px-3 py-2 text-sm text-heading placeholder:text-sold focus:border-brand focus:outline-none"
