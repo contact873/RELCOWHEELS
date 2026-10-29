@@ -124,3 +124,25 @@ producing a bad page:
 - For each form field: a label, an `aria-label`, or a wrapping label. **Hidden inputs are exempt**,
   since they are not focusable and are never announced. An earlier version of this check counted
   them and produced two false positives.
+
+## Do not poll the deployment
+
+**A polling loop against the live site trips Vercel's bot protection, and the challenge then blocks
+the verification you were trying to run.** This happened: a loop checking every eight seconds for a
+deploy, plus a sweep across seventeen routes at four widths, and the site started answering `403` with
+a "Vercel Security Checkpoint" page and a `retry-after` header. It cleared after roughly five minutes
+of complete silence, and it cannot be cleared by waiting thirty seconds and asking again, because
+each attempt extends it.
+
+So:
+
+- **Wait on the deploy with one request, then stop.** Not a loop.
+- **Verify colours and content from the served stylesheet**, which is one request and never
+  challenges: fetch the page, take the `_next/static/css/*.css` path out of it, fetch that, and grep
+  for the token values. That is stronger evidence than a rendered screenshot anyway, since it proves
+  what shipped rather than what one browser made of it.
+- **Run the wide sweep against a local production server, not the deployment.** `npm run build`,
+  `npm start`, then sweep `localhost`. Same code, no challenge, and it is faster.
+- Note that **headless Chrome is challenged too**, so a browser pass against the live site can fail
+  for this reason and look like a broken deployment. Check the status code before believing a blank
+  page.
