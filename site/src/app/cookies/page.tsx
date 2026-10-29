@@ -26,48 +26,59 @@ export default function Cookies() {
         </p>
 
         <h2 className="mt-8 text-xl">Necessary</h2>
-        <table className="mt-3 w-full text-sm">
-          <thead>
-            <tr className="border-b border-border text-left">
-              <th className="py-2 pr-4 font-semibold text-heading">Name</th>
-              <th className="py-2 pr-4 font-semibold text-heading">What it does</th>
-              <th className="py-2 font-semibold text-heading">Lasts</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-border align-top">
-              <td className="py-3 pr-4"><span className="data">relwheels.consent.v1</span></td>
-              <td className="py-3 pr-4 text-body">Remembers the choice you made on the cookie banner, so you are not asked on every page.</td>
-              <td className="py-3 text-body">Until you clear it</td>
-            </tr>
-            <tr className="border-b border-border align-top">
-              <td className="py-3 pr-4"><span className="data">session</span></td>
-              <td className="py-3 pr-4 text-body">Keeps you signed in. Without it you would have to sign in on every page.</td>
-              <td className="py-3 text-body">Until you sign out</td>
-            </tr>
-          </tbody>
-        </table>
+        {/*
+          The table scrolls inside its own container rather than with the page. Three columns plus a
+          long monospace token such as relwheels.consent.v1 give the table a minimum width of about
+          318px, and a 320px phone has only 280px of content width once the page gutters are taken
+          out, so the table used to drag the whole document 18px sideways. tabIndex is deliberate: a
+          scroll region with nothing focusable inside it cannot be scrolled by keyboard.
+        */}
+        <div className="mt-3 overflow-x-auto" role="region" aria-label="Necessary cookies" tabIndex={0}>
+          <table className="w-full min-w-[36rem] text-sm">
+            <thead>
+              <tr className="border-b border-border text-left">
+                <th className="py-2 pr-4 font-semibold text-heading">Name</th>
+                <th className="py-2 pr-4 font-semibold text-heading">What it does</th>
+                <th className="py-2 font-semibold text-heading">Lasts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border align-top">
+                <td className="py-3 pr-4"><span className="data">relwheels.consent.v1</span></td>
+                <td className="py-3 pr-4 text-body">Remembers the choice you made on the cookie banner, so you are not asked on every page.</td>
+                <td className="py-3 text-body">Until you clear it</td>
+              </tr>
+              <tr className="border-b border-border align-top">
+                <td className="py-3 pr-4"><span className="data">session</span></td>
+                <td className="py-3 pr-4 text-body">Keeps you signed in. Without it you would have to sign in on every page.</td>
+                <td className="py-3 text-body">Until you sign out</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h2 className="mt-8 text-xl">Optional</h2>
-        <table className="mt-3 w-full text-sm">
-          <thead>
-            <tr className="border-b border-border text-left">
-              <th className="py-2 pr-4 font-semibold text-heading">Name</th>
-              <th className="py-2 pr-4 font-semibold text-heading">What it does</th>
-              <th className="py-2 font-semibold text-heading">Lasts</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="align-top">
-              <td className="py-3 pr-4"><span className="data">_ga</span></td>
-              <td className="py-3 pr-4 text-body">
-                Google Analytics. Tells us which pages get used and which do not. It is not loaded at
-                all unless you accept, and the site works completely without it.
-              </td>
-              <td className="py-3 text-body">13 months</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="mt-3 overflow-x-auto" role="region" aria-label="Optional cookies" tabIndex={0}>
+          <table className="w-full min-w-[36rem] text-sm">
+            <thead>
+              <tr className="border-b border-border text-left">
+                <th className="py-2 pr-4 font-semibold text-heading">Name</th>
+                <th className="py-2 pr-4 font-semibold text-heading">What it does</th>
+                <th className="py-2 font-semibold text-heading">Lasts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="align-top">
+                <td className="py-3 pr-4"><span className="data">_ga</span></td>
+                <td className="py-3 pr-4 text-body">
+                  Google Analytics. Tells us which pages get used and which do not. It is not loaded at
+                  all unless you accept, and the site works completely without it.
+                </td>
+                <td className="py-3 text-body">13 months</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h2 className="mt-8 text-xl">Changing your mind</h2>
         <p className="mt-3 text-body">
