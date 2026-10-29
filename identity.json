@@ -12,17 +12,17 @@
     "structure": "dense-data"
   },
   "tokens": {
-    "brand": "#1D4ED8",
-    "brand-alt": "#2F63F0",
-    "heading": "#0B1220",
-    "text": "#37475C",
-    "bg": "#F4F7FC",
-    "bg-alt": "#FCFDFF",
-    "border": "#DCE4F0",
-    "bg-subtle": "#E9EFFA",
-    "extra": "#1D4ED8",
-    "price": "#B45309",
-    "sold": "#5B6778",
+    "brand": "#1B4AD4",
+    "brand-alt": "#2E63EC",
+    "heading": "#101720",
+    "text": "#3A4250",
+    "bg": "#FAFAF8",
+    "bg-alt": "#FFFFFF",
+    "border": "#E5E5E0",
+    "bg-subtle": "#F2F2EF",
+    "extra": "#1B4AD4",
+    "price": "#A84807",
+    "sold": "#5A6472",
     "warn": "#A16207",
     "danger": "#C0342B"
   },
@@ -34,10 +34,11 @@
   "tokenFile": "site/src/app/tokens.css",
   "notes": [
     "Revised 2026-10-30, from the original green inspection-sheet scheme. That version read as documentation: muted green on cool grey, hairlines, colour reserved for nothing. It was accurate and it was not persuasive, and a marketplace is judged in the first three seconds by somebody deciding whether the site will waste their time.",
+    "Then revised again the same day, to a neutral off-white ground. The first bright version tinted the page faintly blue, which is pleasant in isolation and wrong for the product: silver, grey and white cars are most of this market, and a cast in the background makes them look wrong. The ground now has no colour in it at all, and the cards are white on top of it, which is what gives the page depth given that a shadow is the one thing this identity never uses.",
     "Blue carries trust, which is the one thing a buyer needs before handing money to a stranger, and it is bright against white rather than heavy on it. No other RELCO property uses blue as its brand; verified with tools/check-identity.mjs.",
-    "Amber carries money. Prices are the number every buyer scans first, and giving them the accent would make the accent mean both trust and money until it meant neither. Warm against a cool ground, so it carries further than it would on white.",
-    "The ground stays cool and near-white, and stays light. Cool because warm grounds dull the silver, grey and white cars that are most of this market. Near-white rather than pure white because the page needs a hair of depth without a shadow, and a shadow is the one thing this identity never uses.",
+    "Amber carries money. Prices are the number every buyer scans first, and giving them the accent would make the accent mean both trust and money until it meant neither. Warm against a neutral ground, so it carries.",
+    "Every colour pair in this file was measured rather than chosen by eye. Five foregrounds against three surfaces in light mode, and the same across the dark scheme and the ink bands, all at or above 4.5:1. Two rounds of that found real failures: muted label text at 4.12:1, and then the amber at 4.48:1 on the subtle panels.",
     "The width axis is gone. Archivo was stretched to 118 for an expanded heading; Sora has no width axis, so the character comes from its geometry and weight instead.",
-    "Still absent on purpose: no warm cream, no brass or gold accent, no pure white ground, no shadow, and no hairline on every row of a specification table."
+    "Still absent on purpose: no warm cream, no brass or gold accent, no tinted ground, no shadow, and no hairline on every row of a specification table."
   ]
 }

@@ -5,23 +5,21 @@
   ../identity.json. Run `node ../tools/check-identity.mjs` before shipping a change here.
 
   The concept is "bright and confident". A marketplace is judged in the first three seconds, on a
-  phone, in daylight, by somebody deciding whether the site looks like it will waste their time. So:
-  an airy near-white ground with a faint cool cast, one strong blue that means trust, and prices in
-  a warm amber so money is the loudest thing on the page.
+  phone, in daylight, by somebody deciding whether the site looks like it will waste their time.
+
+  Why the ground is a neutral off-white. Brightness is most of the impression, and a tinted ground
+  fights the product: silver, grey and white cars are most of this market, and any cast in the
+  background makes them look wrong. So the page is off-white with no colour in it at all, and the
+  cards sit in pure white on top. That is what gives the page depth, since a shadow is the one thing
+  this identity never uses, and white on off-white does the job a shadow would have done.
 
   Why blue. Buyers on a marketplace hand money to a stranger, so the accent has to read as
-  trustworthy before anything else, and blue is the colour that does that everywhere. It is also
-  bright against white rather than heavy on it, and it leaves car photographs alone: silver, grey
-  and white cars are most of this market and a tinted ground fights them.
+  trustworthy before anything else, and blue is the colour that does that everywhere. No other RELCO
+  property uses blue as its brand; checked against tools/check-identity.mjs.
 
   Why amber for prices, not blue. A second meaning needs a second colour. Prices are the number
-  every buyer scans first, and giving them the accent would make the accent mean both "trust" and
-  "money" until it meant neither. Amber is warm against the cool ground, which makes it carry
-  further, and it is used nowhere else.
-
-  Why the ground is cool and near-white. Cool because warm grounds dull silver and grey cars.
-  Near-white rather than pure white because the page needs a hair of depth without a shadow, and a
-  shadow is the one thing this identity never uses.
+  every buyer scans first, and giving them the accent would make the accent mean both trust and
+  money until it meant neither. Warm against a neutral ground, so it carries.
 
   Page theme lock: light is the default, dark is the same identity at night. Nothing inverts
   section by section. The footer and one home band are ink, and they are ink in both modes.
@@ -31,19 +29,19 @@
   color-scheme: light;
 
   /* nine slot contract, adopted from the Astra model */
-  --brand: #1d4ed8;      /* trust blue. The strongest single signal a marketplace can send */
-  --brand-alt: #2f63f0;  /* hover and active states */
-  --heading: #0b1220;    /* near black ink. Headings want the most contrast available */
-  --text: #37475c;       /* slate. Softer than the headings, still comfortably readable */
-  --bg: #f4f7fc;         /* airy, a faint cool cast */
-  --bg-alt: #fcfdff;     /* the card surface. Not pure white, which glares on a phone outdoors */
-  --border: #dce4f0;
-  --bg-subtle: #e9effa;  /* quiet bands and the placeholder panels */
-  --extra: #1d4ed8;      /* links and actions share the brand, so the page has one voice */
+  --brand: #1b4ad4;      /* trust blue. The strongest single signal a marketplace can send */
+  --brand-alt: #2e63ec;  /* hover and active states */
+  --heading: #101720;    /* near black, neutral rather than blue-black, to sit on a neutral ground */
+  --text: #3a4250;       /* slate. Softer than the headings, still comfortably readable */
+  --bg: #fafaf8;         /* off-white. No tint, so it cannot make a silver car look wrong */
+  --bg-alt: #ffffff;     /* the card. White on off-white is what gives the page depth */
+  --border: #e5e5e0;
+  --bg-subtle: #f2f2ef;  /* quiet bands and the placeholder panels */
+  --extra: #1b4ad4;      /* links and actions share the brand, so the page has one voice */
 
   /* functional, exempt from the uniqueness rule because they mean the same thing everywhere */
-  --price: #b45309;      /* warm amber, on purpose. The accent means trust, this means money */
-  --sold: #5b6778;
+  --price: #a84807;      /* amber, on purpose. The accent means trust, this means money */
+  --sold: #5a6472;
   --warn: #a16207;
   --danger: #c0342b;
 
@@ -60,18 +58,18 @@
   :root {
     color-scheme: dark;
 
-    --brand: #6e9bff;
-    --brand-alt: #8cb0ff;
+    --brand: #7aa2ff;
+    --brand-alt: #96b6ff;
     --heading: #eef2fa;
     --text: #aab6c8;
-    --bg: #080d16;
-    --bg-alt: #0e1522;
-    --border: #1e2a3d;
-    --bg-subtle: #131b2b;
-    --extra: #8cb0ff;
+    --bg: #0b0e13;
+    --bg-alt: #12161d;
+    --border: #252a33;
+    --bg-subtle: #181c24;
+    --extra: #96b6ff;
 
-    --price: #f0b072;
-    --sold: #7e8b9e;
+    --price: #e8a366;
+    --sold: #8a93a3;
     --warn: #d8a33c;
     --danger: #e57066;
   }
@@ -86,14 +84,14 @@
 /* The footer, and any other deliberately inverted band. Ink in both colour schemes. */
 [data-surface="ink"] {
   color-scheme: dark;
-  --bg: #0a1526;
-  --bg-alt: #101d31;
-  --bg-subtle: #16243b;
-  --border: #26374f;
+  --bg: #0e131b;
+  --bg-alt: #151a23;
+  --bg-subtle: #1b2029;
+  --border: #28303b;
   --heading: #eef2fa;
   --text: #b4c1d2;
-  --brand: #6e9bff;
-  --extra: #8cb0ff;
-  --price: #f0b072;
+  --brand: #7aa2ff;
+  --extra: #96b6ff;
+  --price: #e8a366;
   --sold: #8695a4;
 }
