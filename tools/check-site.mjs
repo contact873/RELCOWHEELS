@@ -128,7 +128,14 @@ if (secretHits.length) fail("secret exposure", secretHits.join(", "));
 else notes.push("no secret patterns and no public-prefixed secrets");
 
 // ---------------------------------------------------------------------------
-// 4. The build exists and every page has exactly one h1
+// 4. The build exists, every page has exactly one h1, and no heading level is skipped
+//
+// The h1 rule was already here. The heading order rule is new, and it earned its place the
+// painful way: the footer's column headings were h3, so any page whose content had no h2 went
+// h1 straight to h3, which a screen reader announces as a broken outline. It was found by driving
+// the live site in a headless browser and reading the accessibility tree, which is not something a
+// build can do. But the check itself needs no browser, because the served HTML lists the headings
+// in document order, so it belongs here where it runs on every build from now on.
 // ---------------------------------------------------------------------------
 
 if (!fs.existsSync(BUILD)) {
@@ -136,12 +143,30 @@ if (!fs.existsSync(BUILD)) {
 } else {
   const pages = walk(BUILD, [".html"]);
   const badH1 = [];
+  const badOrder = [];
+
   for (const page of pages) {
-    const count = (fs.readFileSync(page, "utf8").match(/<h1/g) ?? []).length;
-    if (count !== 1) badH1.push(`${path.relative(BUILD, page)} (${count})`);
+    const html = fs.readFileSync(page, "utf8");
+    const where = path.relative(BUILD, page);
+
+    const count = (html.match(/<h1/g) ?? []).length;
+    if (count !== 1) badH1.push(`${where} (${count})`);
+
+    // Document order, which is the order a screen reader reads them in.
+    const levels = [...html.matchAll(/<h([1-6])/g)].map((m) => Number(m[1]));
+    for (let i = 1; i < levels.length; i += 1) {
+      if (levels[i] - levels[i - 1] > 1) {
+        badOrder.push(`${where} (h${levels[i - 1]} then h${levels[i]})`);
+        break;
+      }
+    }
   }
+
   if (badH1.length) fail("h1 count", badH1.slice(0, 6).join(", "));
   else notes.push(`${pages.length} pages, one h1 each`);
+
+  if (badOrder.length) fail("heading order", badOrder.slice(0, 6).join(", "));
+  else notes.push(`${pages.length} pages, no heading level skipped`);
 }
 
 // ---------------------------------------------------------------------------

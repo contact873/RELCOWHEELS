@@ -70,9 +70,9 @@ export function SiteFooter() {
 
           {columns.map((col) => (
             <div key={col.heading}>
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-heading">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-heading">
                 {col.heading}
-              </h3>
+              </h2>
 
               {col.heading === "Contact" ? (
                 <ul className="mt-4 space-y-2 text-sm">
