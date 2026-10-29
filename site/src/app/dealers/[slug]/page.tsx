@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ListingTile } from "@/components/listing-card";
 import { PhotoPlaceholder } from "@/components/photo-placeholder";
 import { PreviewNotice } from "@/components/preview-notice";
+import { ShowcaseCard } from "@/components/showcase-card";
 import { dealerListings } from "@/lib/queries";
 import { PROSPECTS, getProspect, isIndexable } from "@/lib/prospects";
 
@@ -123,7 +123,7 @@ export default async function DealerPage({ params }: { params: Params }) {
           {stock.length > 0 ? (
             <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {stock.map((listing) => (
-                <ListingTile key={listing.id} listing={listing} />
+                <ShowcaseCard key={listing.id} listing={listing} />
               ))}
             </div>
           ) : (

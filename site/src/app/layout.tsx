@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Public_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Sora, Figtree, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -10,20 +10,20 @@ import { SampleNotice } from "@/components/sample-notice";
 
 /*
   Three faces, all self-hosted by next/font at build time, and none of them shared with any other
-  RELCO property. See ~/Documents/apps/DESIGN-IDENTITY.md.
+  RELCO property. Check with `node ../tools/check-identity.mjs` before swapping one.
 
-    Archivo       display, with the width axis opened to 118 for an expanded, mechanical heading
-    Public Sans   body
+    Sora          display. Geometric, wide and confident at large sizes, which is what a masthead
+                  and a section heading need. No width axis: the character is the geometry.
+    Figtree       body. Clean and readable at 16px on a phone, which is where most of this is read.
     IBM Plex Mono data: prices, mileage, engine capacity, reference numbers
 */
-const display = Archivo({
+const display = Sora({
   subsets: ["latin"],
   variable: "--font-display",
-  axes: ["wdth"],
   display: "swap",
 });
 
-const body = Public_Sans({
+const body = Figtree({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",

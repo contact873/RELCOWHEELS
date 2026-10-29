@@ -4,33 +4,48 @@
   Unique to this property. Registered in ~/Documents/apps/DESIGN-IDENTITY.md and declared in
   ../identity.json. Run `node ../tools/check-identity.mjs` before shipping a change here.
 
-  The concept is "the inspection sheet". A marketplace reads like documentation: cool, precise,
-  data forward. Note what is deliberately absent: no warm cream, because warm grounds dull silver,
-  grey and white cars, which is most of the market.
+  The concept is "bright and confident". A marketplace is judged in the first three seconds, on a
+  phone, in daylight, by somebody deciding whether the site looks like it will waste their time. So:
+  an airy near-white ground with a faint cool cast, one strong blue that means trust, and prices in
+  a warm amber so money is the loudest thing on the page.
+
+  Why blue. Buyers on a marketplace hand money to a stranger, so the accent has to read as
+  trustworthy before anything else, and blue is the colour that does that everywhere. It is also
+  bright against white rather than heavy on it, and it leaves car photographs alone: silver, grey
+  and white cars are most of this market and a tinted ground fights them.
+
+  Why amber for prices, not blue. A second meaning needs a second colour. Prices are the number
+  every buyer scans first, and giving them the accent would make the accent mean both "trust" and
+  "money" until it meant neither. Amber is warm against the cool ground, which makes it carry
+  further, and it is used nowhere else.
+
+  Why the ground is cool and near-white. Cool because warm grounds dull silver and grey cars.
+  Near-white rather than pure white because the page needs a hair of depth without a shadow, and a
+  shadow is the one thing this identity never uses.
 
   Page theme lock: light is the default, dark is the same identity at night. Nothing inverts
-  section by section. The footer is the one ink band, and it is ink in both modes.
+  section by section. The footer and one home band are ink, and they are ink in both modes.
 */
 
 :root {
   color-scheme: light;
 
   /* nine slot contract, adopted from the Astra model */
-  --brand: #0e5c4a;      /* verified green. The marketplace's actual product is verification */
-  --brand-alt: #128168;
-  --heading: #0f1b26;    /* cool graphite navy */
-  --text: #33414e;
-  --bg: #f4f6f8;         /* cool grey white */
-  --bg-alt: #fcfdfe;     /* off white. Never pure #ffffff, which kills depth */
-  --border: #d3dbe2;
-  --bg-subtle: #e8edf1;
-  --extra: #1d4ed8;      /* action blue. Links and actions only, never competing with green */
+  --brand: #1d4ed8;      /* trust blue. The strongest single signal a marketplace can send */
+  --brand-alt: #2f63f0;  /* hover and active states */
+  --heading: #0b1220;    /* near black ink. Headings want the most contrast available */
+  --text: #37475c;       /* slate. Softer than the headings, still comfortably readable */
+  --bg: #f4f7fc;         /* airy, a faint cool cast */
+  --bg-alt: #fcfdff;     /* the card surface. Not pure white, which glares on a phone outdoors */
+  --border: #dce4f0;
+  --bg-subtle: #e9effa;  /* quiet bands and the placeholder panels */
+  --extra: #1d4ed8;      /* links and actions share the brand, so the page has one voice */
 
   /* functional, exempt from the uniqueness rule because they mean the same thing everywhere */
-  --price: #0e5c4a;
-  --sold: #64748b;
+  --price: #b45309;      /* warm amber, on purpose. The accent means trust, this means money */
+  --sold: #5b6778;
   --warn: #a16207;
-  --danger: #b3261e;
+  --danger: #c0342b;
 
   /* shape: one system, crisp 2px, applied everywhere */
   --radius: 2px;
@@ -45,41 +60,40 @@
   :root {
     color-scheme: dark;
 
-    --brand: #2f9e7d;
-    --brand-alt: #3dba95;
-    --heading: #eef3f7;
-    --text: #aebeca;
-    --bg: #0c141c;
-    --bg-alt: #111b25;
-    --border: #22303e;
-    --bg-subtle: #16212c;
-    --extra: #7ba7f5;
+    --brand: #6e9bff;
+    --brand-alt: #8cb0ff;
+    --heading: #eef2fa;
+    --text: #aab6c8;
+    --bg: #080d16;
+    --bg-alt: #0e1522;
+    --border: #1e2a3d;
+    --bg-subtle: #131b2b;
+    --extra: #8cb0ff;
 
-    --price: #4fc79b;
-    --sold: #7b8a99;
+    --price: #f0b072;
+    --sold: #7e8b9e;
     --warn: #d8a33c;
     --danger: #e57066;
   }
 }
 
-/* Archivo carries a width axis, which is what gives the headings their mechanical, expanded
-   feel. Set here rather than in a Tailwind utility because it is a variation axis, not a size. */
+/* Headings set slightly tighter than the body. No width axis: Sora has none, and the character
+   comes from its geometry and weight rather than from stretching it. */
 [data-display] {
-  font-variation-settings: "wdth" 118;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 
 /* The footer, and any other deliberately inverted band. Ink in both colour schemes. */
 [data-surface="ink"] {
   color-scheme: dark;
-  --bg: #0f1b26;
-  --bg-alt: #16232f;
-  --bg-subtle: #1c2b39;
-  --border: #26374a;
-  --heading: #eef3f7;
-  --text: #b3c1cd;
-  --brand: #2f9e7d;
-  --extra: #7ba7f5;
-  --price: #4fc79b;
+  --bg: #0a1526;
+  --bg-alt: #101d31;
+  --bg-subtle: #16243b;
+  --border: #26374f;
+  --heading: #eef2fa;
+  --text: #b4c1d2;
+  --brand: #6e9bff;
+  --extra: #8cb0ff;
+  --price: #f0b072;
   --sold: #8695a4;
 }

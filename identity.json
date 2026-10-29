@@ -6,36 +6,38 @@
   "axes": {
     "ground": "cool",
     "key": "light",
-    "display": "expanded-grotesk",
-    "body": "public-sans",
+    "display": "geometric-display",
+    "body": "figtree",
     "shape": "crisp-2px",
     "structure": "dense-data"
   },
   "tokens": {
-    "brand": "#0E5C4A",
-    "brand-alt": "#128168",
-    "heading": "#0F1B26",
-    "text": "#33414E",
-    "bg": "#F4F6F8",
-    "bg-alt": "#FCFDFE",
-    "border": "#D3DBE2",
-    "bg-subtle": "#E8EDF1",
+    "brand": "#1D4ED8",
+    "brand-alt": "#2F63F0",
+    "heading": "#0B1220",
+    "text": "#37475C",
+    "bg": "#F4F7FC",
+    "bg-alt": "#FCFDFF",
+    "border": "#DCE4F0",
+    "bg-subtle": "#E9EFFA",
     "extra": "#1D4ED8",
-    "price": "#0E5C4A",
-    "sold": "#64748B",
+    "price": "#B45309",
+    "sold": "#5B6778",
     "warn": "#A16207",
-    "danger": "#B3261E"
+    "danger": "#C0342B"
   },
   "type": {
-    "display": "Archivo",
-    "body": "Public Sans",
+    "display": "Sora",
+    "body": "Figtree",
     "data": "IBM Plex Mono"
   },
   "tokenFile": "site/src/app/tokens.css",
   "notes": [
-    "Green carries verification, which is the marketplace's actual product, and it is unused elsewhere.",
-    "Blue is reserved strictly for links and actions so the two never compete.",
-    "The cool grey-white ground is a photographic decision: warm cream dulls silver and grey cars.",
-    "No shadows anywhere. This identity reads as documentation, not as a consumer app."
+    "Revised 2026-10-30, from the original green inspection-sheet scheme. That version read as documentation: muted green on cool grey, hairlines, colour reserved for nothing. It was accurate and it was not persuasive, and a marketplace is judged in the first three seconds by somebody deciding whether the site will waste their time.",
+    "Blue carries trust, which is the one thing a buyer needs before handing money to a stranger, and it is bright against white rather than heavy on it. No other RELCO property uses blue as its brand; verified with tools/check-identity.mjs.",
+    "Amber carries money. Prices are the number every buyer scans first, and giving them the accent would make the accent mean both trust and money until it meant neither. Warm against a cool ground, so it carries further than it would on white.",
+    "The ground stays cool and near-white, and stays light. Cool because warm grounds dull the silver, grey and white cars that are most of this market. Near-white rather than pure white because the page needs a hair of depth without a shadow, and a shadow is the one thing this identity never uses.",
+    "The width axis is gone. Archivo was stretched to 118 for an expanded heading; Sora has no width axis, so the character comes from its geometry and weight instead.",
+    "Still absent on purpose: no warm cream, no brass or gold accent, no pure white ground, no shadow, and no hairline on every row of a specification table."
   ]
 }

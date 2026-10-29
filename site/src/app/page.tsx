@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BodyTypeTiles } from "@/components/body-type-tiles";
 import { ConditionPanel } from "@/components/condition-panel";
 import { ListingRow } from "@/components/listing-card";
+import { ShowcaseCard } from "@/components/showcase-card";
 import { StatBand } from "@/components/stat-band";
 import { countByBody, countByCity, countByMake, liveListings, soldListings } from "@/lib/queries";
 import { seedArticles, seedCategories, seedThreads } from "@/lib/seed";
@@ -23,9 +24,6 @@ const BUDGETS: [string, string][] = [
   ["Imported, with sheet", "/cars?imported=1"],
 ];
 
-/** How many listings the home page shows before handing over to the browse page. */
-const HOME_LIMIT = 5;
-
 export default function HomePage() {
   // Derived from the data, never written by hand. A count on screen that the listings do not
   // support is the fastest way to make a marketplace look invented.
@@ -34,6 +32,17 @@ export default function HomePage() {
   const makes = countByMake();
   const cities = countByCity().slice(0, 6);
   const bodies = countByBody();
+
+  // Ordered by condition score, highest first, then by how recently it was listed. A stated rule
+  // rather than a hand-picked list, so this section cannot quietly become whatever we felt like
+  // showing, and it cannot become a place to sell prominence to a dealer.
+  const featured = [...live]
+    .sort(
+      (a, b) =>
+        (b.inspection?.overallScore ?? -1) - (a.inspection?.overallScore ?? -1) ||
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    )
+    .slice(0, 4);
 
   // The condition panel in the hero shows a real report from a real listing, so the visual and the
   // numbers underneath it agree. Newest first, because the newest car is the one the page leads on.
@@ -136,19 +145,28 @@ export default function HomePage() {
       <StatBand />
 
       {/* ------------------------------------------------------------------ */}
-      {/* Latest listings. Five of them, then hand over to the browse page.    */}
+      {/* The showcase. Cards rather than rows, because this is the section    */}
+      {/* for somebody who has not decided whether to stay.                    */}
       {/* ------------------------------------------------------------------ */}
       <section className="wrap-x py-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="text-2xl md:text-3xl">Cars listed this week</h2>
+          <div>
+            <p className="eyebrow">Best condition first</p>
+            <h2 className="mt-3 text-2xl md:text-3xl">Inspected, and listed this week</h2>
+          </div>
           <Link href="/cars" className="text-sm font-semibold text-brand hover:underline">
             See all {live.length} cars
           </Link>
         </div>
 
-        <div className="mt-6">
-          {live.slice(0, HOME_LIMIT).map((listing) => (
-            <ListingRow key={listing.id} listing={listing} />
+        <p className="mt-3 max-w-[62ch] text-sm text-body">
+          Ordered by the condition score, highest first. Nobody can pay to be at the top of this
+          row, and the score behind each one is on the listing itself.
+        </p>
+
+        <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {featured.map((listing) => (
+            <ShowcaseCard key={listing.id} listing={listing} />
           ))}
         </div>
       </section>
