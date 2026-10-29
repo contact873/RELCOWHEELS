@@ -31,7 +31,17 @@ export default function BlogIndex() {
 
       {lead && (
         <article className="mt-10 grid gap-8 border-b border-border pb-10 lg:grid-cols-2">
-          <Link href={`/blog/${lead.slug}`} className="block border border-border bg-bg-alt">
+          {/*
+            The image is decorative (alt is empty, because it is illustration rather than a picture
+            of the car the article is about), which leaves the link wrapping it with nothing to
+            announce. A screen reader would otherwise read out a bare "link" here. The aria-label
+            gives the link a name without giving the image a claim.
+          */}
+          <Link
+            href={`/blog/${lead.slug}`}
+            aria-label={`Read the guide: ${lead.title}`}
+            className="block border border-border bg-bg-alt"
+          >
             {lead.coverPath ? (
               <Image
                 src={lead.coverPath}
