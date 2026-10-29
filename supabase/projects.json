@@ -1,0 +1,33 @@
+{
+  "property": "RELCO Wheels",
+  "note": "The single source of truth for which Supabase project is which. Read by tools/check-site.mjs and explained in docs/environments.md. Change a role here and the gate follows.",
+  "projects": [
+    {
+      "role": "production",
+      "ref": "ecjyqamcegxbnpidrfqb",
+      "url": "https://ecjyqamcegxbnpidrfqb.supabase.co",
+      "state": "Migrations 0001 to 0005 applied, catalogue loaded (22 makes, 71 models, 117 variants), security posture verified by probing the live API. Six sensitive tables return 404, profiles.email and dealers.phone no longer exist as columns.",
+      "notes": [
+        "This is the proven project, which is why it holds production.",
+        "The Vercel deployment points at it."
+      ]
+    },
+    {
+      "role": "staging",
+      "ref": "vrgjqwppdeoyhjgmkaca",
+      "url": "https://vrgjqwppdeoyhjgmkaca.supabase.co",
+      "state": "Empty. Created 2026-10-30. No migrations have been run in it.",
+      "notes": [
+        "Local development points here, so that a mistake made while working cannot damage production.",
+        "Migrations are rehearsed here before they are run in production.",
+        "Run the five migrations and then data/catalogue.sql, in that order, before pointing anything at it. See docs/environments.md."
+      ]
+    }
+  ],
+  "rules": [
+    "Local development never points at the production project.",
+    "A migration is run in staging first, and only then in production.",
+    "The service role key exists in production only, and never on a machine that does not need it.",
+    "A new project is assumed insecure until 0001 to 0005 have run, because a fresh Supabase project exposes new tables by default."
+  ]
+}

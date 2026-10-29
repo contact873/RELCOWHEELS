@@ -23,6 +23,7 @@ RELCOWHEELS/
     supabase-setup.md           the browser steps to connect the database, and the checks that prove it
     filling-the-database.md     what goes in, in what order, and how
     email.md                    what email is for here, and why none of it is built yet
+    environments.md             which Supabase project is production and which is staging
     security-scan.md            VibeGuard, npm audit and Semgrep, and what they could not see
     design-craft.md             the design principles taken from the two reference sites
     color-schemes.html          eight palette options, with contrast ratios computed live
@@ -49,8 +50,9 @@ RELCOWHEELS/
     0003_harden.sql             the private schema, least privilege, pinned search_path
     0004_staff_created_stock.sql   a dealer and its stock can exist before anyone has signed up
     0005_grant_is_admin_to_anon.sql  lets the public read the tables whose policies call is_admin()
+    projects.json               which Supabase project is production and which is staging. Read by the gate
   tools/dbcheck/                executes all five migrations, the catalogue, the dealer import, 36 tests
-  tools/check-site.mjs          the site gate: dashes, sanitiser, secrets, h1, identity, gitignore
+  tools/check-site.mjs          the site gate: dashes, sanitiser, secrets, h1, heading order, identity, environments
   tools/seed-catalogue.mjs      turns data/catalogue.json into idempotent SQL
   tools/import-dealer-stock.mjs turns a dealer's CSV into SQL, refusing the whole file if any row fails
   templates/                    the CSV a dealer fills in
@@ -219,7 +221,7 @@ npm run check:db          # all five migrations execute, plus 36 behaviour and s
 | Logo and tagline lockups | Built: 7 SVGs, 17 PNG exports, measured. `brand/BRAND-WHEELS.md` |
 | Repository | Pushed to GitHub, working tree clean |
 | Seed data | 26 cars, 6 articles, 6 forum threads, 3 profiles |
-| Supabase project | **Live** at `ecjyqamcegxbnpidrfqb.supabase.co`. All four migrations applied, catalogue loaded |
+| Supabase project | **Production** is `ecjyqamcegxbnpidrfqb`: all five migrations applied, catalogue loaded. **Staging** is `vrgjqwppdeoyhjgmkaca`: empty, not yet migrated. `supabase/projects.json` |
 | Catalogue, verified against the live project | 22 makes, 71 models, 117 variants. `engine_cc=eq.660` returns the Alto, Every and Mira variants |
 | Posture, verified against the live project | 22 public tables, 8 private. Six sensitive tables return 404 through the API; `profiles.email` and `dealers.phone` return "column does not exist" |
 | Schema tests | 331 statements and 33 behaviour tests, all passing, in `tools/dbcheck`. Runs the real migrations against Postgres 16 in WebAssembly |

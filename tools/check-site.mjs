@@ -203,6 +203,46 @@ if (fs.existsSync(path.join(SITE, ".env.local"))) {
 }
 
 // ---------------------------------------------------------------------------
+// 7. Local development is not pointed at the production database
+//
+// There are two Supabase projects now, they look identical from the outside, and pointing the site
+// at the wrong one is easy to do and hard to notice. supabase/projects.json says which is which.
+//
+// This is a warning rather than a failure for one reason, and it is temporary: the split is half
+// done. Production is live, staging has no migrations in it yet, so .env.local legitimately still
+// points at production. Once staging is migrated and .env.local points at it, change this warn() to
+// fail(), because from that moment pointing local development at production is a mistake rather
+// than a necessity.
+// ---------------------------------------------------------------------------
+
+const projectsFile = path.join(PROJECT, "supabase/projects.json");
+const envLocal = path.join(SITE, ".env.local");
+
+if (fs.existsSync(projectsFile) && fs.existsSync(envLocal)) {
+  try {
+    const registry = JSON.parse(fs.readFileSync(projectsFile, "utf8"));
+    const production = (registry.projects ?? []).find((p) => p.role === "production");
+    const staging = (registry.projects ?? []).find((p) => p.role === "staging");
+    const env = fs.readFileSync(envLocal, "utf8");
+
+    if (!production?.ref) {
+      warn("environments", "supabase/projects.json names no production project");
+    } else if (env.includes(production.ref)) {
+      warn(
+        "environments",
+        `.env.local points at the production project (${production.ref}). Repoint it at staging once staging has its migrations: see docs/environments.md`,
+      );
+    } else {
+      notes.push(
+        `local development is not pointed at production${staging?.ref ? ` (staging ${staging.ref})` : ""}`,
+      );
+    }
+  } catch (error) {
+    warn("environments", `could not read supabase/projects.json: ${String(error.message)}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Report
 // ---------------------------------------------------------------------------
 
