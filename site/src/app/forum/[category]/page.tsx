@@ -80,8 +80,6 @@ export default async function CategoryPage({ params }: { params: Params }) {
                 <span className="mx-2">/</span>
                 {t.replyCount} {t.replyCount === 1 ? "reply" : "replies"}
                 <span className="mx-2">/</span>
-                {t.viewCount.toLocaleString("en-PK")} views
-                <span className="mx-2">/</span>
                 {when(t.lastReplyAt ?? t.createdAt)}
               </p>
             </li>

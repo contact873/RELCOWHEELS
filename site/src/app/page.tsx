@@ -1,7 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
+import { BodyTypeTiles } from "@/components/body-type-tiles";
+import { ConditionPanel } from "@/components/condition-panel";
 import { ListingRow } from "@/components/listing-card";
-import { countByCity, countByMake, liveListings, soldListings } from "@/lib/queries";
+import { StatBand } from "@/components/stat-band";
+import { countByBody, countByCity, countByMake, liveListings, soldListings } from "@/lib/queries";
 import { seedArticles, seedCategories, seedThreads } from "@/lib/seed";
 import { when } from "@/lib/format";
 
@@ -21,21 +23,30 @@ const BUDGETS: [string, string][] = [
   ["Imported, with sheet", "/cars?imported=1"],
 ];
 
+/** How many listings the home page shows before handing over to the browse page. */
+const HOME_LIMIT = 5;
+
 export default function HomePage() {
   // Derived from the data, never written by hand. A count on screen that the listings do not
   // support is the fastest way to make a marketplace look invented.
   const live = liveListings();
   const sold = soldListings();
-  const makes = countByMake().slice(0, 8);
+  const makes = countByMake();
   const cities = countByCity().slice(0, 6);
+  const bodies = countByBody();
+
+  // The condition panel in the hero shows a real report from a real listing, so the visual and the
+  // numbers underneath it agree. Newest first, because the newest car is the one the page leads on.
+  const exemplar =
+    live.find((l) => l.inspection !== null) ?? live[0] ?? null;
 
   return (
     <>
       {/* ------------------------------------------------------------------ */}
-      {/* Hero. Asymmetric split, real photograph, three text elements only. */}
+      {/* Hero. The visual is a condition report, not a car photograph.       */}
       {/* ------------------------------------------------------------------ */}
       <section className="border-b border-border bg-bg-alt">
-        <div className="wrap-x grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
+        <div className="wrap-x grid items-start gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
           <div>
             <h1 className="text-4xl leading-[1.05] md:text-5xl lg:text-[3.4rem]">
               Every car here shows
@@ -65,6 +76,17 @@ export default function HomePage() {
               </button>
             </form>
 
+            {makes.length > 0 && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+                <span className="text-sold">Common:</span>
+                {makes.slice(0, 6).map((m) => (
+                  <Link key={m.slug} href={`/cars?make=${m.slug}`} className="text-body hover:text-brand">
+                    {m.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-sold">
               <Link href="/sell" className="font-semibold text-brand hover:underline">
                 Sell your car
@@ -75,40 +97,57 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="order-first lg:order-none">
-            {/*
-              A hero photograph is illustration, so it may show a car that is not for sale here. A
-              listing photograph is evidence, so it may not. That is why this one stays while every
-              listing currently renders a labelled panel: this image claims nothing about any car.
-              The alt is empty on purpose, which marks it decorative and stops it asserting that it
-              is a photograph of something on this site.
-            */}
-            <Image
-              src="/cars/11-2.jpg"
-              alt=""
-              width={900}
-              height={675}
-              priority
-              className="h-auto w-full"
-              sizes="(max-width: 1024px) 100vw, 560px"
-            />
+          <div>
+            {exemplar && exemplar.inspection ? (
+              <>
+                <ConditionPanel listing={exemplar} />
+                <p className="mt-3 text-xs text-sold">
+                  An example, from{" "}
+                  <Link href={`/car/${exemplar.slug}`} className="underline hover:text-brand">
+                    {exemplar.modelYear} {exemplar.makeName} {exemplar.modelName}
+                  </Link>
+                  . Every listing carries one.
+                </p>
+              </>
+            ) : null}
           </div>
         </div>
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* Latest listings, as rows. One eyebrow for the whole page, here.    */}
+      {/* The first browse step: what kind of car.                            */}
       {/* ------------------------------------------------------------------ */}
       <section className="wrap-x py-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="text-2xl md:text-3xl">Cars listed this week</h2>
+          <div>
+            <p className="eyebrow">Start here</p>
+            <h2 className="mt-3 text-2xl md:text-3xl">What kind of car do you need?</h2>
+          </div>
           <Link href="/cars" className="text-sm font-semibold text-brand hover:underline">
             All cars
           </Link>
         </div>
 
+        <div className="mt-7">
+          <BodyTypeTiles tiles={bodies} />
+        </div>
+      </section>
+
+      <StatBand />
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Latest listings. Five of them, then hand over to the browse page.    */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="wrap-x py-14">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <h2 className="text-2xl md:text-3xl">Cars listed this week</h2>
+          <Link href="/cars" className="text-sm font-semibold text-brand hover:underline">
+            See all {live.length} cars
+          </Link>
+        </div>
+
         <div className="mt-6">
-          {live.map((listing) => (
+          {live.slice(0, HOME_LIMIT).map((listing) => (
             <ListingRow key={listing.id} listing={listing} />
           ))}
         </div>
@@ -122,7 +161,7 @@ export default function HomePage() {
           <div>
             <h2 className="text-lg">By make</h2>
             <ul className="mt-4">
-              {makes.map((m) => (
+              {makes.slice(0, 8).map((m) => (
                 <li key={m.slug} className="flex items-baseline justify-between border-b border-border py-2 text-sm">
                   <Link href={`/cars?make=${m.slug}`} className="text-body hover:text-brand">
                     {m.name}
@@ -287,6 +326,31 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Closing call to action, for the buyer who read the whole page.      */}
+      {/* ------------------------------------------------------------------ */}
+      <section data-surface="ink" className="bg-bg">
+        <div className="wrap-x grid items-center gap-8 py-14 lg:grid-cols-[1.2fr_auto]">
+          <div>
+            <h2 className="max-w-[28ch] text-2xl md:text-3xl">
+              Not sure which car to buy? Describe what you need.
+            </h2>
+            <p className="mt-3 max-w-[58ch] text-sm">
+              Tell us the budget, the city and what the car has to do, and we will come back with
+              the ones that fit rather than the ones we would rather sell you.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/find-my-car" className="btn btn-primary">
+              Find my car
+            </Link>
+            <Link href="/cars" className="btn btn-ghost">
+              Browse the stock
+            </Link>
+          </div>
+        </div>
       </section>
     </>
   );

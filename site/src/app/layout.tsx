@@ -3,6 +3,8 @@ import { Archivo, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ContactBar } from "@/components/contact-bar";
+import { WhatsappFloat } from "@/components/whatsapp-float";
 import { CookieConsent } from "@/components/cookie-consent";
 import { SampleNotice } from "@/components/sample-notice";
 
@@ -70,6 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        {/* Renders nothing at all until contact details exist in src/lib/contact.ts. */}
+        <ContactBar />
         <SiteHeader />
         {/* Disappears on its own the moment a database is configured. */}
         <SampleNotice />
@@ -77,6 +81,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
         {/* Renders a banner only. No analytics script exists in this HTML until a choice is stored. */}
         <CookieConsent />
+        {/* Sits below the consent banner deliberately, so the two never stack. */}
+        <WhatsappFloat />
       </body>
     </html>
   );

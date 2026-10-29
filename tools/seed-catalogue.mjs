@@ -210,5 +210,36 @@ fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, sql);
 
 console.log(`\n  Wrote ${path.relative(ROOT, outPath)}, ${(sql.length / 1024).toFixed(1)} KB`);
+
+// The site's numbers band reads its counts from a generated module rather than having them typed
+// into a page. A count written into markup drifts from the catalogue the first time the catalogue
+// changes, and a number on screen that the catalogue does not support is exactly what this project
+// exists to avoid. Written whole, so the file cannot accumulate edits that disagree with the data.
+const FACTS_PATH = path.resolve(ROOT, "site/src/lib/catalogue-facts.ts");
+const facts = `/**
+ * Size of the vehicle catalogue.
+ *
+ * GENERATED FILE. Written by tools/seed-catalogue.mjs from data/catalogue.json, and overwritten
+ * whole every time it runs, so edits here are lost. Regenerate with:
+ *
+ *   node tools/seed-catalogue.mjs --out data/catalogue.sql
+ *
+ * These are catalogue facts, not listing counts. The catalogue holds ${doc.makes.length} makes whether or not
+ * anybody is selling one today, and a page showing these numbers has to say which they are.
+ * Listing counts are always derived from listings, never from here.
+ *
+ * Source: ${doc.makes.length} makes, ${modelCount} models, ${variantCount} variants.
+ */
+
+export const CATALOGUE_FACTS = {
+  makes: ${doc.makes.length},
+  models: ${modelCount},
+  variants: ${variantCount},
+} as const;
+`;
+
+fs.writeFileSync(FACTS_PATH, facts);
+console.log(`  Also wrote ${path.relative(ROOT, FACTS_PATH)}, which the site reads for its counts.`);
+
 console.log("\n  Next: paste it into the Supabase SQL editor, or run:");
 console.log(`    psql "$DATABASE_URL" -f ${path.relative(ROOT, outPath)}\n`);

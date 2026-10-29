@@ -1,6 +1,8 @@
 import {
+  BODY_BLURBS,
   BODY_TYPES,
   BUDGET_BANDS,
+  countByBody,
   countByCity,
   countByMake,
   liveListings,
@@ -175,8 +177,10 @@ export function dealerListings(handle: string): Listing[] {
 }
 
 export {
+  BODY_BLURBS,
   BODY_TYPES,
   BUDGET_BANDS,
+  countByBody,
   countByCity,
   countByMake,
   liveListings,

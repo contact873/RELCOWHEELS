@@ -46,11 +46,6 @@ export default async function ThreadPage({ params }: { params: Params }) {
     inLanguage: "en-PK",
     author: { "@type": "Person", name: thread.authorName },
     commentCount: thread.replyCount,
-    interactionStatistic: {
-      "@type": "InteractionCounter",
-      interactionType: "https://schema.org/ViewAction",
-      userInteractionCount: thread.viewCount,
-    },
     isPartOf: { "@type": "WebSite", name: "RELCO Wheels", url: SITE },
   };
 
@@ -83,8 +78,6 @@ export default async function ThreadPage({ params }: { params: Params }) {
             {when(thread.createdAt)}
             <span className="mx-2">/</span>
             {thread.replyCount} {thread.replyCount === 1 ? "reply" : "replies"}
-            <span className="mx-2">/</span>
-            {thread.viewCount.toLocaleString("en-PK")} views
           </p>
 
           {thread.listingRef && (

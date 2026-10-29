@@ -196,6 +196,9 @@ function buildListings(): Listing[] {
       sellerIsDealer: seller.dealer,
       publishedAt: daysAgoIso(r.daysAgo),
       updatedAt: daysAgoIso(Math.max(0, r.daysAgo - 1)),
+      // Synthetic, and deliberately not rendered anywhere. Sample content cannot know how many
+      // people looked at a listing, and an engagement figure invented for a demo reads as a fact
+      // about real buyers. Kept in the shape so the database can fill it in later.
       viewCount: 240 + ((i * 137) % 2900),
       phoneRevealCount: 4 + ((i * 17) % 84),
     } satisfies Listing;
@@ -236,6 +239,33 @@ export function countByCity(): { name: string; slug: string; count: number }[] {
   return [...map.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 }
 
+/**
+ * Body type, counted from live listings rather than from the catalogue.
+ *
+ * Deliberate, and it matters. The catalogue holds eight body types; only five have cars listed
+ * against them. A tile reading "SUV 40" because the catalogue knows forty SUV variants, sitting on
+ * a page where clicking it returns four cars, is the same class of lie as a photograph of the wrong
+ * car. A tile says how many are listed, so it counts listings.
+ *
+ * Ordered by BODY_TYPES rather than by count, so the tiles hold their position on every build and
+ * a returning buyer's muscle memory keeps working.
+ */
+export function countByBody(): { name: string; slug: string; count: number }[] {
+  const map = new Map<string, { name: string; slug: string; count: number }>();
+  for (const l of liveListings()) {
+    if (!l.bodyType) continue;
+    const slug = slugify(l.bodyType);
+    const cur = map.get(slug) ?? { name: l.bodyType, slug, count: 0 };
+    cur.count += 1;
+    map.set(slug, cur);
+  }
+  const rank = (name: string) => {
+    const i = BODY_TYPES.findIndex((x: string) => x.toLowerCase() === name.toLowerCase());
+    return i === -1 ? BODY_TYPES.length : i;
+  };
+  return [...map.values()].sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
+}
+
 export const BUDGET_BANDS: { label: string; slug: string; under: number }[] = [
   { label: "Under 20 lakh", slug: "under-20-lakh", under: 2_000_000 },
   { label: "Under 30 lakh", slug: "under-30-lakh", under: 3_000_000 },
@@ -245,6 +275,19 @@ export const BUDGET_BANDS: { label: string; slug: string; under: number }[] = [
 ];
 
 export const BODY_TYPES = ["Sedan", "Hatchback", "SUV", "Crossover", "Van"] as const;
+
+/**
+ * One line per body type for the tiles. Plain language on purpose: this is the first browse step
+ * for somebody who does not know what a crossover is, and "a car platform with a taller body" is
+ * not an answer.
+ */
+export const BODY_BLURBS: Record<string, string> = {
+  Sedan: "Four doors and a boot. The family default.",
+  Hatchback: "Short, easy to park, the cheapest to run.",
+  SUV: "Higher seating, four wheel drive on most.",
+  Crossover: "The SUV shape on a car platform.",
+  Van: "Sliding doors and room for seven.",
+};
 
 export const seedProfiles: PublicProfile[] = [
   {
@@ -495,7 +538,7 @@ export const seedArticles: Article[] = [
     title: "Why asking prices in Pakistan are not sale prices",
     dek: "A listed price is an opening position. Here is what the gap actually looks like, and how to use it when you negotiate.",
     bodyHtml:
-      "<p>Every listing on every Pakistani car site shows an asking price, and almost none shows what the car sold for. That single omission is why buyers negotiate blind and sellers wait months.</p><p>On the cars sold through this site so far, the gap between the final asking price and the price actually agreed ran between four and eleven percent. The cars that moved fastest were the ones priced closest to the market from the start, not the ones priced high to leave room.</p><p>Practically: treat the asking price as evidence of the seller's expectation, not of the car's value. Then compare it against several live examples of the same year and trim, and against the condition result.</p>",
+      "<p>Every listing on every Pakistani car site shows an asking price, and almost none shows what the car sold for. That single omission is why buyers negotiate blind and sellers wait months.</p><p>Treat the asking price as evidence of the seller's expectation, not of the car's value. What a car actually changes hands for depends on the year, the trim, the condition result and how long the seller has been waiting, and the only comparison that means anything is against several live examples of the same car in the same month.</p><p>The habit that helps most: before you name a number, find three cars of the same year and trim listed in your city, and work from those rather than from the asking price in front of you.</p>",
     status: "published",
     coverPath: null,
     tags: ["prices", "buying"],
