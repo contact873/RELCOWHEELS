@@ -19,3 +19,11 @@ next-env.d.ts
 # real prices and real registration numbers, and they are derived from a CSV that is itself the
 # record. Treat a stock file like a customer list, not like source code.
 stock/
+
+# VibeGuard writes these into the project root whenever it scans, without being asked.
+# The cache is transient, the report filename carries a timestamp, and a baseline records the
+# absolute repo path of whichever machine produced it, which is not something to share.
+# If a shared baseline is ever wanted, create it deliberately and un-ignore baselines/.
+.vibeguard/cache/
+.vibeguard/baselines/
+vibeguard-report-*.html

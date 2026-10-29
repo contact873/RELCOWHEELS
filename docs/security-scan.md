@@ -19,6 +19,22 @@ all of them obstacles:
 
 It was unpacked to the session scratchpad, not installed system-wide.
 
+### It writes into the repository without being asked
+
+Running a scan leaves three things in the project root:
+
+| Path | What it is |
+|---|---|
+| `.vibeguard/cache/scan_<timestamp>.json` | 64 KB of raw scanner output, transient |
+| `.vibeguard/baselines/initial.json` | An auto-created baseline, empty here because nothing was actionable |
+| `vibeguard-report-<timestamp>.html` | A 28 KB rendered report |
+
+All three are gitignored. The baseline is the reason: it stores `repo_root` as an **absolute path**,
+so committing one would put `/Users/<name>/...` into a shared repository, and it would suppress
+whatever it captured from every future scan. Baselines are for deliberately tracking known legacy
+findings, not an automatic side effect of looking. If a shared baseline is ever wanted, create it on
+purpose and un-ignore `baselines/`.
+
 ### Result
 
 ```
