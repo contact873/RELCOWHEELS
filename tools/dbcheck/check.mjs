@@ -28,6 +28,7 @@ const MIGRATIONS = [
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0003_harden.sql"),
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0004_staff_created_stock.sql"),
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0005_grant_is_admin_to_anon.sql"),
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../supabase/migrations/0006_signup.sql"),
 ];
 
 /**
@@ -128,7 +129,16 @@ function adapt(sql) {
 
 const STUB = `
 create schema if not exists auth;
-create table if not exists auth.users (id uuid primary key);
+create table if not exists auth.users (
+  id uuid primary key,
+  email text,
+  phone text,
+  email_confirmed_at timestamptz,
+  phone_confirmed_at timestamptz,
+  raw_user_meta_data jsonb,
+  raw_app_meta_data jsonb,
+  created_at timestamptz not null default now()
+);
 create or replace function auth.uid() returns uuid language sql stable as $$ select null::uuid $$;
 do $$ begin
   if not exists (select 1 from pg_roles where rolname = 'anon') then create role anon nologin; end if;
@@ -258,26 +268,139 @@ const ADMIN = "00000000-0000-0000-0000-000000000002";
 console.log("");
 console.log("  Behaviour");
 
-await db.query(`insert into auth.users (id) values ($1), ($2)`, [ALICE, ADMIN]);
+// Profiles are no longer inserted by hand. Migration 0006 puts a trigger on auth.users, so a sign-up
+// is now the only way a profile comes into existence, and seeding through the real path is the only
+// way to know that path works.
 await db.query(
-  `insert into profiles (id, display_name, handle, terms_version) values
-     ($1, 'Alice Member', 'alice_member', '1'),
-     ($2, 'Site Owner', 'site_owner', '1')`,
-  [ALICE, ADMIN],
+  `insert into auth.users (id, email, email_confirmed_at, raw_user_meta_data, raw_app_meta_data) values
+     ($1, 'alice@example.com', now(), $3, $5),
+     ($2, 'owner@example.com', now(), $4, $5)`,
+  [ALICE, ADMIN, JSON.stringify({ full_name: "Alice Member" }), JSON.stringify({ full_name: "Site Owner" }), JSON.stringify({ provider: "email" })],
 );
 await db.query(`update profiles set role = 'admin' where id = $1`, [ADMIN]);
 
 // The display name constraint blocks the platform's own name, so nobody can pose as us. This was
 // discovered the honest way: an earlier version of this file used "Site Admin" as test data and the
 // insert was rejected, which is the constraint doing its job.
+//
+// Now expressed as an update rather than an insert, because the trigger has already created this
+// user's profile. The constraint applies to any write, so the test is just as true.
 await test("a display name cannot impersonate the platform", async () => {
-  await db.query(`insert into auth.users (id) values ('00000000-0000-0000-0000-000000000003')`);
+  await db.query(
+    `insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data)
+     values ('00000000-0000-0000-0000-000000000003', 'member@example.com', $1, $2)`,
+    [JSON.stringify({ full_name: "Ordinary Member" }), JSON.stringify({ provider: "email" })],
+  );
   await expectError(
-    `insert into profiles (id, display_name, handle, terms_version)
-     values ('00000000-0000-0000-0000-000000000003', 'RELCO Support', 'relco_support', '1')`,
+    `update profiles set display_name = 'RELCO Support'
+      where id = '00000000-0000-0000-0000-000000000003'`,
     [],
     "profiles_display_name_check",
   );
+});
+
+console.log("");
+console.log("  Signing up");
+
+await test("a Google sign-up creates the profile every policy depends on", async () => {
+  const id = "00000000-0000-0000-0000-000000000004";
+  await db.query(
+    `insert into auth.users (id, email, email_confirmed_at, raw_user_meta_data, raw_app_meta_data)
+     values ($1, 'bilal.cheema@gmail.com', now(), $2, $3)`,
+    [
+      id,
+      JSON.stringify({ full_name: "Bilal Cheema", sub: "google-123" }),
+      JSON.stringify({ provider: "google" }),
+    ],
+  );
+  const r = await db.query(
+    `select p.display_name, p.handle, c.email, i.provider, i.provider_uid
+       from public.profiles p
+       left join private.profile_contacts c on c.user_id = p.id
+       left join private.user_identities i on i.user_id = p.id
+      where p.id = $1`,
+    [id],
+  );
+  const row = r.rows[0];
+  assert(row, "no profile was created for the new auth user");
+  assert(row.display_name === "Bilal Cheema", `display name was ${row.display_name}`);
+  assert(row.handle === "bilalcheema", `handle was ${row.handle}`);
+  assert(row.email === "bilal.cheema@gmail.com", `email was ${row.email}`);
+  assert(row.provider === "google", `provider was ${row.provider}`);
+  assert(row.provider_uid === "google-123", `provider uid was ${row.provider_uid}`);
+});
+
+await test("a name the rules would reject is repaired, not refused", async () => {
+  const id = "00000000-0000-0000-0000-000000000005";
+  await db.query(
+    `insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data)
+     values ($1, 'obrien@example.com', $2, $3)`,
+    [id, JSON.stringify({ full_name: "O'Brien-Smith 3rd" }), JSON.stringify({ provider: "google" })],
+  );
+  const r = await db.query(`select display_name, handle from public.profiles where id = $1`, [id]);
+  const row = r.rows[0];
+  assert(row, "the sign-up failed instead of repairing the name");
+  assert(/^[A-Za-z][A-Za-z ]{2,24}$/.test(row.display_name), `unlawful name survived: ${row.display_name}`);
+  assert(/^[a-z0-9][a-z0-9_]{2,29}$/.test(row.handle), `unlawful handle survived: ${row.handle}`);
+});
+
+await test("an impersonating name is replaced, and the sign-up still succeeds", async () => {
+  const id = "00000000-0000-0000-0000-000000000006";
+  await db.query(
+    `insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data)
+     values ($1, 'imposter@example.com', $2, $3)`,
+    [id, JSON.stringify({ full_name: "RELCO Admin" }), JSON.stringify({ provider: "google" })],
+  );
+  const r = await db.query(`select display_name from public.profiles where id = $1`, [id]);
+  assert(r.rows[0], "the sign-up failed instead of replacing the name");
+  assert(
+    !/relco|wheels|admin|staff|moderator/i.test(r.rows[0].display_name),
+    `an impersonating name got through: ${r.rows[0].display_name}`,
+  );
+});
+
+await test("two people with the same name both get an account", async () => {
+  const a = "00000000-0000-0000-0000-000000000007";
+  const b = "00000000-0000-0000-0000-000000000008";
+  for (const id of [a, b]) {
+    await db.query(
+      `insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data)
+       values ($1, $2, $3, $4)`,
+      [id, `${id}@example.com`, JSON.stringify({ full_name: "Ahmed Khan" }), JSON.stringify({ provider: "google" })],
+    );
+  }
+  const r = await db.query(
+    `select display_name, handle from public.profiles where id in ($1, $2) order by id`,
+    [a, b],
+  );
+  assert(r.rows.length === 2, `expected two profiles, got ${r.rows.length}`);
+  assert(
+    r.rows[0].display_name !== r.rows[1].display_name,
+    `both got the same display name: ${r.rows[0].display_name}`,
+  );
+  assert(r.rows[0].handle !== r.rows[1].handle, `both got the same handle: ${r.rows[0].handle}`);
+});
+
+await test("Apple is a provider the database accepts", async () => {
+  const id = "00000000-0000-0000-0000-000000000009";
+  await db.query(
+    `insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data)
+     values ($1, 'apple@privaterelay.appleid.com', $2, $3)`,
+    [id, JSON.stringify({ full_name: "Apple Tester" }), JSON.stringify({ provider: "apple" })],
+  );
+  const r = await db.query(`select provider from private.user_identities where user_id = $1`, [id]);
+  assert(r.rows[0]?.provider === "apple", `provider recorded as ${r.rows[0]?.provider}`);
+});
+
+await test("a phone sign-up lands in the private contact record", async () => {
+  const id = "00000000-0000-0000-0000-00000000000a";
+  await db.query(
+    `insert into auth.users (id, phone, phone_confirmed_at, raw_app_meta_data)
+     values ($1, '+923004006000', now(), $2)`,
+    [id, JSON.stringify({ provider: "mobile" })],
+  );
+  const r = await db.query(`select phone from private.profile_contacts where user_id = $1`, [id]);
+  assert(r.rows[0]?.phone === "+923004006000", `phone was ${r.rows[0]?.phone}`);
 });
 
 const cat = await db.query(`select id from forum_categories where slug = 'buying-advice'`);
