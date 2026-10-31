@@ -31,6 +31,11 @@
     "body": "Figtree",
     "data": "IBM Plex Mono"
   },
+  "logo": {
+    "node": "#C9541F",
+    "nodeSize": 4.6,
+    "note": "The family nod. The same orange node appears on every RELCO property, which is why it is recorded here rather than hardcoded in a drawing tool. It is the one element that crosses the family; everything around it is unique."
+  },
   "tokenFile": "site/src/app/tokens.css",
   "notes": [
     "Revised 2026-10-30, from the original green inspection-sheet scheme. That version read as documentation: muted green on cool grey, hairlines, colour reserved for nothing. It was accurate and it was not persuasive, and a marketplace is judged in the first three seconds by somebody deciding whether the site will waste their time.",
