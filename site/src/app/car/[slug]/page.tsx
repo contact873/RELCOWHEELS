@@ -213,6 +213,7 @@ export default async function ListingPage({ params }: { params: Params }) {
             <div className="mt-6">
               <PhotoPlaceholder
                 reference={listing.reference}
+                body={listing.bodyType}
                 label="No photograph supplied for this car"
                 className="aspect-[4/3]"
               />

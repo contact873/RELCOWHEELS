@@ -41,7 +41,7 @@ export function ShowcaseCard({ listing }: { listing: Listing }) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
             />
           ) : (
-            <PhotoPlaceholder reference={listing.reference} />
+            <PhotoPlaceholder reference={listing.reference} body={listing.bodyType} />
           )}
 
           {score !== null && !sold && (

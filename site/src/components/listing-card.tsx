@@ -36,7 +36,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
             sizes="(max-width: 768px) 100vw, 260px"
           />
         ) : (
-          <PhotoPlaceholder reference={listing.reference} />
+          <PhotoPlaceholder reference={listing.reference} body={listing.bodyType} />
         )}
       </Link>
 
@@ -127,7 +127,7 @@ export function ListingTile({ listing }: { listing: Listing }) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
           />
         ) : (
-          <PhotoPlaceholder reference={listing.reference} />
+          <PhotoPlaceholder reference={listing.reference} body={listing.bodyType} />
         )}
       </Link>
       <div className="p-4">
