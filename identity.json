@@ -32,6 +32,7 @@
     "data": "IBM Plex Mono"
   },
   "logo": {
+    "family": "relco",
     "node": "#C9541F",
     "nodeSize": 4.6,
     "note": "The family nod. The same orange node appears on every RELCO property, which is why it is recorded here rather than hardcoded in a drawing tool. It is the one element that crosses the family; everything around it is unique."
