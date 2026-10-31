@@ -542,7 +542,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>The Alto is the easiest car in Pakistan to buy and the easiest to buy badly. It is cheap enough that people skip the checks they would run on a Corolla, and the costs they inherit are identical.</p><h2>Ask for the transmission invoice, not the engine one</h2><p>On the automatic, the gearbox is fine when it has been serviced and expensive when it has not, and the entire difference is a single piece of paper.</p><h2>Test the air conditioning from cold</h2><p>They commonly fail at around 60,000 km. Switch it on the moment you arrive, not after a ten minute drive when the cabin has already cooled and the fault is invisible.</p><h2>Look at the rear arches with a torch</h2><p>Surface rust starts there on anything that spent time near the coast. Look up under the arch lip rather than at the paint.</p><h2>Prefer the service record to the mileage</h2><p>A 70,000 km car with a full authorised workshop history is a better buy than a 45,000 km car with none.</p><h2>Compare against live listings, not against a dealer's opinion of the market</h2><p>Same year, same trim, this month, in your city. That is the only comparison that means anything.</p>",
     status: "published",
-    coverPath: ILLUSTRATION_PHOTOS[0],
+    coverPath: null,
     tags: ["buying", "suzuki", "inspection"],
     authorHandle: "bilal_cheema", authorName: "Bilal Cheema", isGuest: false,
     publishedAt: daysAgoIso(6), updatedAt: daysAgoIso(4), viewCount: 3412, readingMinutes: 4,
@@ -555,7 +555,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>Every listing on every Pakistani car site shows an asking price, and almost none shows what the car sold for. That single omission is why buyers negotiate blind and sellers wait months.</p><p>Treat the asking price as evidence of the seller's expectation, not of the car's value. What a car actually changes hands for depends on the year, the trim, the condition result and how long the seller has been waiting, and the only comparison that means anything is against several live examples of the same car in the same month.</p><p>The habit that helps most: before you name a number, find three cars of the same year and trim listed in your city, and work from those rather than from the asking price in front of you.</p>",
     status: "published",
-    coverPath: ILLUSTRATION_PHOTOS[1],
+    coverPath: null,
     tags: ["prices", "buying"],
     authorHandle: "relco_editors", authorName: "RELCO Wheels", isGuest: false,
     publishedAt: daysAgoIso(10), updatedAt: daysAgoIso(10), viewCount: 5921, readingMinutes: 3,
@@ -568,7 +568,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>A grade 4.5 tells you the inspector thought the car was good. It does not tell you whether the interior is an A or a C, and those two cars are not worth the same money.</p><h2>The letter scores</h2><p>Interior and exterior are graded separately from A down to D. A car with a clean body and a tired cabin is priced like the cabin, not like the body.</p><h2>Panel markings</h2><p>The diagram records where the inspector found repairs. Two marked panels is not a disaster. Seven is a story, and the seller should be able to tell it.</p><h2>R and RA</h2><p>These mean the car had damage and it was repaired. They are disclosed, which is more than most local classifieds manage. Read which panels moved, and price accordingly.</p><h2>Shaken</h2><p>A current shaken on an older import tells you how the car has been kept, which is often more useful than the grade itself.</p>",
     status: "published",
-    coverPath: ILLUSTRATION_PHOTOS[2],
+    coverPath: null,
     tags: ["imports", "inspection"],
     authorHandle: "ibrar_h", authorName: "Ibrar Hussain", isGuest: false,
     publishedAt: daysAgoIso(13), updatedAt: daysAgoIso(13), viewCount: 4188, readingMinutes: 5,
@@ -581,7 +581,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>Buyers read photographs as evidence about the seller, not only about the car. A short set looks like something is being hidden, even when nothing is.</p><h2>The twelve</h2><p>Front three quarter, rear three quarter, both sides square, front, rear, dashboard with the odometer readable, both front seats, the rear bench, the boot floor, the engine bay.</p><h2>Daylight, car clean, phone held level</h2><p>Overcast light is better than direct sun. Wash the car first: it is the cheapest improvement available and almost nobody does it.</p><h2>Do not crop to a fixed shape</h2><p>Leave the photographs at their own proportions. Cropping a car to a square hides the part somebody wants to see.</p><h2>Photograph the faults</h2><p>A photographed scratch costs you a small negotiation. An undiscovered scratch costs you the sale, the travel and the trust.</p>",
     status: "published",
-    coverPath: ILLUSTRATION_PHOTOS[0],
+    coverPath: null,
     tags: ["selling"],
     authorHandle: "relco_editors", authorName: "RELCO Wheels", isGuest: false,
     publishedAt: daysAgoIso(17), updatedAt: daysAgoIso(17), viewCount: 2760, readingMinutes: 4,
@@ -594,7 +594,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>Almost every buyer works out the purchase price and stops. The third year is where the surprises sit, and they are predictable.</p><h2>Tyres and battery arrive together</h2><p>Carefully, around the third or fourth year, both. Budget for them rather than discovering them.</p><h2>Small imports cost more to repair than to run</h2><p>Fuel is cheap on a 660cc car. The parts come through fewer hands, so a single failure can cost more than a year of fuel.</p><h2>Suspension on Lahore roads</h2><p>Bushes and mounts are a running cost here, not a defect. A car with a fresh suspension refresh is worth paying a little more for.</p><h2>Keep the service record after the warranty ends</h2><p>It is what makes the car sellable in year five, and it costs nothing to keep.</p>",
     status: "published",
-    coverPath: ILLUSTRATION_PHOTOS[1],
+    coverPath: null,
     tags: ["ownership"],
     authorHandle: "bilal_cheema", authorName: "Bilal Cheema", isGuest: false,
     publishedAt: daysAgoIso(21), updatedAt: daysAgoIso(21), viewCount: 3310, readingMinutes: 4,
@@ -607,7 +607,7 @@ export const seedArticles: Article[] = [
     bodyHtml:
       "<p>An inspection records what a car was like on the day it was looked at. It is not a guarantee, and any site that implies otherwise is doing you no favours.</p><h2>What a condition score is</h2><p>An inspector's opinion, recorded on a date, across five areas. It is comparable between cars. It is not a prediction about yours.</p><h2>What it is not</h2><p>A warranty. A guarantee against anything failing next month. A substitute for looking at the car yourself, with your own eyes, before you pay.</p><h2>What we will not do</h2><p>We will not tell you a car is clean because a seller told us so. Where a car has not been inspected, the listing says so rather than showing an empty score that reads like a good one.</p>",
     status: "published",
-    coverPath: ILLUSTRATION_PHOTOS[2],
+    coverPath: null,
     tags: ["inspection", "trust"],
     authorHandle: "relco_editors", authorName: "RELCO Wheels", isGuest: false,
     publishedAt: daysAgoIso(24), updatedAt: daysAgoIso(24), viewCount: 1877, readingMinutes: 3,
