@@ -161,7 +161,34 @@ on conflict (model_id, slug) do update set
   transmission = excluded.transmission,
   fuel = excluded.fuel,
   body_type = excluded.body_type,
-  seats = excluded.seats;`;
+  seats = excluded.seats;
+
+-- Prune variants this model no longer has.
+--
+-- The upsert above updates a variant whose slug already exists and inserts one whose slug does not,
+-- but it can never remove one. So renaming a variant leaves the old row in the database for ever,
+-- which is how the Alto came to carry a VXL that the manufacturer has not sold for years alongside
+-- the VXL-AGS that replaced it. Two spellings of one trim is worse than a missing one, because a
+-- buyer searching for the real name finds nothing and a filter offers a car that cannot be bought.
+--
+-- The guard is not decoration. listings.variant_id has no delete rule, so removing a variant that a
+-- listing points at would fail the whole transaction, and removing one that a listing *should* point
+-- at would silently detach it. A variant that survives this delete is therefore left in place on
+-- purpose, and it is a data question for a human rather than something this file can settle. Find
+-- survivors afterwards with:
+--
+--   select m.name, v.name, count(l.id)
+--     from variants v join models m on m.id = v.model_id
+--     left join listings l on l.variant_id = v.id
+--    group by m.name, v.name
+--   having count(l.id) > 0
+--    order by m.name;
+--
+-- and compare that list against data/catalogue.json by eye. An empty overlap is the expected state.
+delete from variants v
+ where v.model_id = (select id from models where make_id = (select id from makes where slug = ${q(make.slug)}) and slug = ${q(model.slug)})
+   and v.slug not in (${model.variants.map((v) => q(v.slug)).join(", ")})
+   and not exists (select 1 from listings l where l.variant_id = v.id);`;
 }
 
 const statements = [];

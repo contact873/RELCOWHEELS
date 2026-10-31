@@ -6,8 +6,8 @@
       "models": [
         { "name": "Alto", "slug": "alto", "variants": [
           { "name": "VXR", "slug": "vxr", "engine_cc": 660, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
-          { "name": "VXL", "slug": "vxl", "engine_cc": 660, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
-          { "name": "VXL AGS", "slug": "vxl-ags", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
+          { "name": "VXR-AGS", "slug": "vxr-ags", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 },
+          { "name": "VXL-AGS", "slug": "vxl-ags", "engine_cc": 660, "transmission": "automatic", "fuel": "petrol", "body_type": "Hatchback", "seats": 4 }
         ] },
         { "name": "Cultus", "slug": "cultus", "variants": [
           { "name": "VXR", "slug": "vxr", "engine_cc": 1000, "transmission": "manual", "fuel": "petrol", "body_type": "Hatchback", "seats": 5 },

@@ -805,6 +805,71 @@ if (fs.existsSync(CATALOGUE_SQL)) {
       `second run changed the counts: ${c.makes}/${c.models}/${c.variants} became ${a.makes}/${a.models}/${a.variants}`,
     );
   });
+
+  await test("the prune removes a stale variant and refuses one a listing points at", async () => {
+    // Two stale variants, neither of which data/catalogue.json still lists. One is free to delete,
+    // the other is pointed at by a listing, and deleting that would detach the listing.
+    await db.query(`
+      insert into public.variants (model_id, name, slug)
+      values (
+        (select m.id from public.models m join public.makes k on k.id = m.make_id
+          where k.slug = 'suzuki' and m.slug = 'alto'), 'VXL', 'vxl')
+    `);
+    await db.query(`
+      insert into public.variants (model_id, name, slug)
+      values (
+        (select m.id from public.models m join public.makes k on k.id = m.make_id
+          where k.slug = 'suzuki' and m.slug = 'cultus'), 'VXL Old', 'vxl-old')
+    `);
+    await db.query(
+      `update public.listings set variant_id = (select id from public.variants where slug = 'vxl-old')
+        where reference = 'IMP-0001'`,
+    );
+
+    try {
+      await db.exec(raw);
+    } catch (error) {
+      await db.exec("rollback").catch(() => {});
+      throw new Error(`the prune run failed: ${String(error.message).split("\n")[0]}`);
+    }
+
+    // Scoped to the model. A slug is unique per model, not globally: 'vxl' legitimately exists under
+    // Cultus and Wagon R, so counting by slug alone reported two rows and made a working prune look
+    // broken. This is the assertion that should have been written first.
+    const r = await db.query(`
+      select
+        (select count(*) from public.variants v
+           join public.models m on m.id = v.model_id
+           join public.makes k on k.id = m.make_id
+          where k.slug = 'suzuki' and m.slug = 'alto' and v.slug = 'vxl')::int as alto_vxl,
+        (select count(*) from public.variants where slug = 'vxl-old')::int as kept
+    `);
+    const d = r.rows[0];
+
+    assert(
+      d.alto_vxl === 0,
+      `the stale Alto VXL was not pruned (still ${d.alto_vxl} under Alto)`,
+    );
+    assert(
+      d.kept === 1,
+      "a variant that a listing points at was deleted, which would detach the listing",
+    );
+  });
+
+  await test("the Alto carries the published variant names and nothing else", async () => {
+    const r = await db.query(`
+      select v.name from public.variants v
+        join public.models m on m.id = v.model_id
+        join public.makes k on k.id = m.make_id
+       where k.slug = 'suzuki' and m.slug = 'alto'
+       order by v.name
+    `);
+    const names = r.rows.map((x) => x.name);
+    assert(
+      JSON.stringify(names) === JSON.stringify(["VXL-AGS", "VXR", "VXR-AGS"]),
+      `expected the three published variants, got ${names.join(", ")}`,
+    );
+  });
 }
 
 // ---------------------------------------------------------------------------
