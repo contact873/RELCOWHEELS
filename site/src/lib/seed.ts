@@ -30,14 +30,20 @@ import type { Article, ForumCategory, ForumThread, Listing, PublicProfile } from
  * subject before it can be used. `subject` is the make and model exactly as they appear in ROWS
  * below, joined by a single space, for example `"Suzuki Alto"`.
  *
- * `null` means nobody has confirmed what the picture shows. It is then shown nowhere: not on a
- * listing, not as an article cover. All three are null at the moment, which is why the site is
- * currently illustrated entirely by placeholder panels.
+ * `null` means the photograph cannot be attached to any listing here. All three are null.
  *
- * To bring one into service, look at the file and fill in its subject. The listings whose make and
- * model match will pick it up on the next build, in this order, capped at how many photographs that
- * listing declares. If no listing matches, it stays unused, which is the correct outcome: a
- * photograph of a car nobody is selling is still not evidence about any car that is.
+ * What has been established by looking at them:
+ *
+ *   13-1.jpg   a BMW. No BMW is listed here, so it goes nowhere.
+ *   11-2.jpg   a Mazda. No Mazda is listed here, so it goes nowhere.
+ *   10-3.jpg   not yet identified.
+ *
+ * The make alone is not enough to attach one. A Mazda 2 photographed on a listing titled Mazda 3 is
+ * the same fault as the Mercedes on the Honda, just at a finer grain, and "it is a Mazda" would make
+ * that mistake feel justified. A subject means a specific car this site is actually selling.
+ *
+ * The one that could go somewhere is 10-3, if it turns out to be a Mercedes E Class, because RW-1064
+ * below is one. Anything else needs photographs of the actual cars.
  */
 const PHOTOS: { path: string; subject: string | null }[] = [
   { path: "/cars/13-1.jpg", subject: null },
