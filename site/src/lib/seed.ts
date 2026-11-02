@@ -32,18 +32,28 @@ import type { Article, ForumCategory, ForumThread, Listing, PublicProfile } from
  *
  * `null` means the photograph cannot be attached to any listing here. All three are null.
  *
- * What has been established by looking at them:
+ * What each one shows, established by looking at them:
  *
- *   13-1.jpg   a BMW. No BMW is listed here, so it goes nowhere.
- *   11-2.jpg   a Mazda. No Mazda is listed here, so it goes nowhere.
- *   10-3.jpg   not yet identified.
+ *   13-1.jpg   BMW 3 Series
+ *   11-2.jpg   Mazda MX-5
+ *   10-3.jpg   Mercedes Benz C Class
  *
- * The make alone is not enough to attach one. A Mazda 2 photographed on a listing titled Mazda 3 is
- * the same fault as the Mercedes on the Honda, just at a finer grain, and "it is a Mazda" would make
- * that mistake feel justified. A subject means a specific car this site is actually selling.
+ * All three are catalogue models, so all three are listable. None of them is listed here, which is why
+ * every subject is still null: there is no car for the photograph to be of.
  *
- * The one that could go somewhere is 10-3, if it turns out to be a Mercedes E Class, because RW-1064
- * below is one. Anything else needs photographs of the actual cars.
+ *   - The only Mercedes in the sample stock is an E Class. A C Class photograph on it would be the
+ *     same fault as the Mercedes on the Honda, which is the report that started all of this.
+ *   - No BMW and no Mazda is listed at all.
+ *
+ * The make alone is not enough to attach one either. A 3 Series photographed on a listing titled
+ * 5 Series is the same mistake at a finer grain, and having a name for the picture would make it feel
+ * justified rather than accidental. A subject means a specific car this site is actually selling.
+ *
+ * So using these needs a listing for each car, and a listing needs a year and a price. Those are not
+ * invented here: an invented price on a live page is a number a buyer could act on.
+ *
+ * The photographs are also not published while they sit here. Nothing renders them, so they are files
+ * in the public folder rather than claims on a page. That changes the moment one is attached.
  */
 const PHOTOS: { path: string; subject: string | null }[] = [
   { path: "/cars/13-1.jpg", subject: null },
