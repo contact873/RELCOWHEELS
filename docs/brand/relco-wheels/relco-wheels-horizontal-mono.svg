@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="320" height="64" role="img" aria-label="RELCO Wheels">
+  <title>RELCO Wheels</title>
+  <rect x="0" y="0" width="320" height="64" fill="#FFFFFF" />
+  <rect x="8" y="8" width="48" height="48" rx="6" fill="#000000" />
+  <g transform="translate(8.075,7.7) scale(0.75)" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 46 V18" />
+    <path d="M22 18 H33 a7.5 7.5 0 0 1 0 15 H22" />
+    <path d="M29 33.5 L41 45.5" />
+  </g>
+  <circle cx="38" cy="41.75" r="3.4499999999999997" fill="#FFFFFF" />
+  <text x="70" y="40" fill="#000000" font-family="Sora" font-size="22" font-weight="700" letter-spacing="-0.4">RELCO Wheels</text>
+</svg>
